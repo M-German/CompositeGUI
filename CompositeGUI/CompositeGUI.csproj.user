@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Compile Update="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AdvancedOptionsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Based.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateMaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateProjectForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateReportTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FiberStructureForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SelectMaterialForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CreateStaticDischargeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SelectReportTemplateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="SelectStaticDischargeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+</Project>
