@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\German\\Desktop\\Учеба\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj": {}
+    "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\German\\Desktop\\Учеба\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj": {
+    "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\German\\Desktop\\Учеба\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj",
+        "projectUniqueName": "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj",
         "projectName": "CompositeGUI",
-        "projectPath": "C:\\Users\\German\\Desktop\\Учеба\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj",
+        "projectPath": "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj",
         "packagesPath": "C:\\Users\\German\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\German\\Desktop\\Учеба\\ВКР\\CompositeGUI\\CompositeGUI\\obj\\",
+        "outputPath": "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Microsoft\\Xamarin\\NuGet\\"

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -12,6 +13,8 @@ namespace CompositeGUI
 {
     public partial class MainForm : Based
     {
+        Project currentProject;
+
         public MainForm()
         {
             InitializeComponent();
@@ -71,7 +74,13 @@ namespace CompositeGUI
             //DBConnectionError();
             //FileAccessError();
             //InvalidDataError();
-            MainProcedureError();
+            //MainProcedureError
+
+            //CST cst = new CST();
+            //cst.Test();
+
+            currentProject = new Project();
+            //currentProject.Start();
         }
 
         private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
