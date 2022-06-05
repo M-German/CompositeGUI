@@ -10,20 +10,23 @@ using System.Windows.Forms;
 
 namespace CompositeGUI
 {
-    public partial class CreateProjectForm : Based
+    public partial class OpenProjectForm : Based
     {
-        public CreateProjectForm()
+        public OpenProjectForm()
         {
             InitializeComponent();
+            this.projectComboBox.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
+            CreateProjectForm f = new CreateProjectForm();
+            f.ShowDialog();
             this.Close();
         }
     }

@@ -14,11 +14,171 @@ namespace CompositeGUI
     public partial class MainForm : Based
     {
         Project currentProject;
+        bool noProjectData = false, showStructure = false;
+        List<List<double>> propData;
+        List<Composite> propDataStructre;
+
+        NoProjectDataForm noDataForm;
 
         public MainForm()
         {
             InitializeComponent();
-            this.Size = new Size(1480, 720);
+
+            propData = new List<List<double>>()
+            {
+                new List<double>() { 0.1, 35.65341942, 35.20124463, 35.43246019 },
+                new List<double>() { 0.11, 35.52501895, 35.06567688, 35.29958923 },
+                new List<double>() { 0.12, 35.40444732, 34.9382407, 35.17458749 },
+                new List<double>() { 0.13, 35.29030919, 34.81747912, 35.05602615 },
+                new List<double>() { 0.14, 35.1814952, 34.7022314, 34.94276714 },
+                new List<double>() { 0.15, 35.07710187, 34.59155173, 34.83388319 },
+                new List<double>() { 0.16, 34.97637879, 34.48465335, 34.7286013 },
+                new List<double>() { 0.17, 34.87869171, 34.3808696, 34.62626841 },
+                new List<double>() { 0.18, 34.7834978, 34.27962994, 34.52632373 },
+                new List<double>() { 0.19, 34.690327, 34.18043921, 34.42828145 },
+                new List<double>() { 0.2, 34.59876817, 34.08286305, 34.33171452 },
+                new List<double>() { 0.21, 34.50845977, 33.98651994, 34.2362478 },
+                new List<double>() { 0.22, 34.41908092, 33.89106933, 34.14154796 },
+                new List<double>() { 0.23, 34.33034772, 33.79621007, 34.0473193 },
+                new List<double>() { 0.24, 34.24200701, 33.70167365, 33.9532989 },
+                new List<double>() { 0.25, 34.15383421, 33.60722035, 33.85925349 },
+                new List<double>() { 0.26, 34.06563062, 33.51263879, 33.76497694 },
+                new List<double>() { 0.27, 33.9772207, 33.41774025, 33.67028766 },
+                new List<double>() { 0.28, 33.88845057, 33.32236042, 33.57502739 },
+                new List<double>() { 0.29, 33.79918508, 33.22635297, 33.47905859 },
+                new List<double>() { 0.3, 33.70930879, 33.12959258, 33.3822634 }
+            };
+
+            propDataStructre = new List<Composite>()
+            {
+                new Composite(3, 7.64, 7.75, 1.61),
+                new Composite(3, 7.68, 7.64, 1.66),
+                new Composite(3, 7.91, 7.67, 1.84),
+            };
+        }
+
+        void FillComposite(int i)
+        {
+            int index = this.resultsDataGridView.Columns.Count;
+            resultsDataGridView.Columns.Add("Column" + (i + 2), "Композит " + (i + 1));
+            this.resultsDataGridView.Rows[0].Cells[index].Value = propDataStructre[i].FiberWidth;
+            this.resultsDataGridView.Rows[1].Cells[index].Value = propDataStructre[i].FiberThickness;
+            this.resultsDataGridView.Rows[2].Cells[index].Value = propDataStructre[i].FiberSpaceBetween;
+            this.resultsDataGridView.Rows[3].Cells[index].Value = Convert.ToDouble(propDataStructre[i].LayerCount);
+        }
+
+        void FillDataGridView()
+        {
+            resultsDataGridView.Rows.Clear();
+            resultsDataGridView.Columns.Clear();
+
+            if(!showStructure)
+            {
+                resultsDataGridView.Columns.Add("Column1", "f (ГГц)");
+                if (resultComboBox.SelectedIndex == 1)
+                {
+                    resultsDataGridView.Columns.Add("Column2", "SE1");
+                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[1]);
+                }
+                else if (resultComboBox.SelectedIndex == 2)
+                {
+                    resultsDataGridView.Columns.Add("Column2", "SE2");
+                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[2]);
+                }
+                else if (resultComboBox.SelectedIndex == 3)
+                {
+                    resultsDataGridView.Columns.Add("Column2", "SE3");
+                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[3]);
+                }
+                else
+                {
+                    resultsDataGridView.Columns.Add("Column2", "SE1");
+                    resultsDataGridView.Columns.Add("Column3", "SE2");
+                    resultsDataGridView.Columns.Add("Column4", "SE3");
+                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[1], row[2], row[3]);
+                }
+            }
+            else
+            {
+                resultsDataGridView.Columns.Add("Column1", "");
+                resultsDataGridView.Rows.Add(4);
+                this.resultsDataGridView.Rows[0].Cells[0].Value = "Ширина волокна";
+                this.resultsDataGridView.Rows[1].Cells[0].Value = "Толщина волокна";
+                this.resultsDataGridView.Rows[2].Cells[0].Value = "Расстояние между";
+                this.resultsDataGridView.Rows[3].Cells[0].Value = "Количество слоев";
+
+                if (resultComboBox.SelectedIndex == 0)
+                {
+                    for (int i = 0; i < propDataStructre.Count; i++) FillComposite(i);
+                }
+                else FillComposite(resultComboBox.SelectedIndex - 1);
+            }
+            
+            this.resultsDataGridView.ClearSelection();
+        }
+
+        void DrawSpline(int i)
+        {
+            this.chart1.Series.Add("SE" + (i + 1));
+            int index = this.chart1.Series.Count - 1;
+            this.chart1.Series[index].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            foreach (var row in propData) this.chart1.Series[index].Points.AddXY(row[0], row[i + 1]);
+        }
+
+        void FillChart()
+        {
+            this.chart1.Series.Clear();
+            chart1.ChartAreas[0].AxisY.Minimum = 33;
+            if(resultComboBox.SelectedIndex == 0)
+                for (int i = 0; i < 3; i++) DrawSpline(i);
+            else DrawSpline(resultComboBox.SelectedIndex - 1);
+        }
+
+        void renderForm(object Form)
+        {
+            if(this.mainPanel.Controls.Count > 0) this.mainPanel.Controls.RemoveAt(0);
+            Form f = Form as Form;
+            f.TopLevel = false;
+            f.Dock = DockStyle.Fill;
+            this.mainPanel.Controls.Add(f);
+            this.mainPanel.Tag = f;
+            f.Show();
+        }
+
+        public delegate void renderFormDelegate(object Form);
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            //////////
+            noDataForm = new NoProjectDataForm();
+            noDataForm.TopLevel = false;
+            noDataForm.Dock = DockStyle.Fill;
+
+            /////////
+            resultComboBox.SelectedIndex = 0;
+
+            //DBConnectionError();
+            //FileAccessError();
+            //InvalidDataError();
+            //MainProcedureError
+
+            //CST cst = new CST();
+            //cst.Test();
+
+            currentProject = new Project();
+
+            if(noProjectData)
+            {
+                this.resultsPanel.Visible = false;
+                this.mainPanel.Controls.Add(noDataForm);
+                noDataForm.Show();
+            }
+            else
+            {
+                this.resultsPanel.Visible = true;
+                this.mainPanel.Controls.Remove(noDataForm);
+            }
+            //currentProject.Start();
         }
 
         private void DBConnectionError()
@@ -69,47 +229,9 @@ namespace CompositeGUI
              );
         }
 
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            //DBConnectionError();
-            //FileAccessError();
-            //InvalidDataError();
-            //MainProcedureError
-
-            //CST cst = new CST();
-            //cst.Test();
-
-            currentProject = new Project();
-            //currentProject.Start();
-        }
-
         private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void fiberMaterialToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectMaterialForm form = new SelectMaterialForm();
-            form.ShowDialog();
-        }
-
-        private void fiberStructureToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FiberStructureForm fs = new FiberStructureForm();
-            fs.ShowDialog();
-        }
-
-        private void dischargeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            SelectStaticDischargeForm sdf = new SelectStaticDischargeForm();
-            sdf.ShowDialog();
-        }
-
-        private void advancedToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AdvancedOptionsForm aof = new AdvancedOptionsForm();
-            aof.ShowDialog();
         }
 
         private void оПрограммеToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -118,49 +240,64 @@ namespace CompositeGUI
             abf.ShowDialog();
         }
 
-        private void fiberEdit_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void создатьToolStripMenuItem_Click(object sender, EventArgs e)
         {
             CreateProjectForm form = new CreateProjectForm();
             form.ShowDialog();
         }
 
-        private void выбратьШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        private void openProjectToolstrip_Click(object sender, EventArgs e)
         {
-            SelectReportTemplateForm form = new SelectReportTemplateForm();
+            OpenProjectForm form = new OpenProjectForm();
             form.ShowDialog();
         }
 
-        private void создатьШаблонToolStripMenuItem_Click(object sender, EventArgs e)
+        private void NewProjectButton_Click(object sender, EventArgs e)
         {
-            CreateReportTemplateForm form = new CreateReportTemplateForm();
+            CreateProjectForm form = new CreateProjectForm();
             form.ShowDialog();
         }
 
-        private void createTemplateToolStripMenuItem_Click(object sender, EventArgs e)
+        private void projectDataToolstrip_Click(object sender, EventArgs e)
         {
-            CreateReportTemplateForm form = new CreateReportTemplateForm();
-            form.ShowDialog();
+            ProjectDataForm f = new ProjectDataForm();
+            f.ShowDialog();
         }
 
+        private void limitsToolstrip_Click(object sender, EventArgs e)
+        {
+            LimitsForm f = new LimitsForm();
+            f.ShowDialog();
+        }
+
+        private void algorithmToolstrip_Click(object sender, EventArgs e)
+        {
+            GeneticAlgorithmForm f = new GeneticAlgorithmForm();
+            f.ShowDialog();
+        }
+
+        private void resultComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            FillDataGridView();
+            FillChart();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            showStructure = !showStructure;
+            if (showStructure) button1.Text = "Покзать экранирование";
+            else button1.Text = "Показать структуру";
+            FillDataGridView();
+        }
+
+        private void удалитьПроектToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                "Вы действительно хотите этот удалить проект?",
+                "Предупреждение",  
+                MessageBoxButtons.YesNo, 
+                MessageBoxIcon.Warning
+            );
+        }
     }
 }

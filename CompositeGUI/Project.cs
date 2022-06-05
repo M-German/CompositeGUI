@@ -32,6 +32,7 @@ namespace CompositeGUI
             // Заглушка
             Material Graphite = new Material("Графит", 12, 1, 24, 2230);
             Material Epoxyresin = new Material("Эпоксидная смола", 4, 1, 0.2, 1500);
+
             this.settings = new GA_Settings(4, 3, 2);
             this.hasMetalGrid = true;
             this.matrixMaterial = Epoxyresin;

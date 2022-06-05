@@ -15,12 +15,35 @@ namespace CompositeGUI
         public SelectMaterialForm()
         {
             InitializeComponent();
+            comboBox1.SelectedIndex = 0;
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            CreateMaterialForm form = new CreateMaterialForm();
-            form.ShowDialog();
+            if(comboBox1.SelectedIndex == 0)
+            {
+                nameTextBox.Text = "Новый материал";
+                elecUpDown.Value = 0;
+                thermalUpDown.Value = 0;
+                magUpDown.Value = 0;
+                densityUpDown.Value = 0;
+            }
+            else if (comboBox1.SelectedIndex == 1)
+            {
+                nameTextBox.Text = "Графит";
+                elecUpDown.Value = 12;
+                thermalUpDown.Value = 24;
+                magUpDown.Value = 1;
+                densityUpDown.Value = 2230;
+            }
+            else if (comboBox1.SelectedIndex == 2)
+            {
+                nameTextBox.Text = "Эпоксидная смола";
+                elecUpDown.Value = 4;
+                thermalUpDown.Value = 0.2m;
+                magUpDown.Value = 1;
+                densityUpDown.Value = 1500;
+            }
         }
     }
 }

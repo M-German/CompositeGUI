@@ -10,19 +10,20 @@ using System.Windows.Forms;
 
 namespace CompositeGUI
 {
-    public partial class CreateProjectForm : Based
+    public partial class GeneticAlgorithmForm : Based
     {
-        public CreateProjectForm()
+        public GeneticAlgorithmForm()
         {
             InitializeComponent();
+            comboBox1.SelectedIndex = 0;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             this.Close();
         }
