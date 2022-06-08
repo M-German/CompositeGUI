@@ -23,13 +23,13 @@ namespace CompositeGUI
 
         void GeneratePopulation()
         {
-            this.population = new List<Composite>(settings.PopulationSize);
+            population = new List<Composite>(settings.PopulationSize);
             for(int i=0; i < settings.PopulationSize; i++) { 
                 Composite c = new Composite();
-                c.LayerCount = RandomValue.RandomInt(rnd, limits.LayerCount.Item1, limits.LayerCount.Item2);
-                c.FiberWidth = RandomValue.RandomDouble(rnd, limits.FiberWidth.Item1, limits.FiberWidth.Item2);
-                c.FiberThickness = RandomValue.RandomDouble(rnd, limits.FiberThickness.Item1, limits.FiberThickness.Item2);
-                c.FiberSpaceBetween = RandomValue.RandomDouble(rnd, limits.FiberSpaceBetween.Item1, limits.FiberSpaceBetween.Item2);
+                c.LayerCount = RandomValue.RandomInt(rnd, limits.MinLayerCount, limits.MaxLayerCount);
+                c.FiberWidth = RandomValue.RandomDouble(rnd, limits.MinFiberWidth, limits.MaxFiberWidth);
+                c.FiberThickness = RandomValue.RandomDouble(rnd, limits.MinFiberThickness, limits.MaxFiberThickness);
+                c.FiberSpaceBetween = RandomValue.RandomDouble(rnd, limits.MinFiberSpaceBetween, limits.MaxFiberSpaceBetween);
 
                 this.population.Add(c);
             }
@@ -84,8 +84,8 @@ namespace CompositeGUI
                     alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.FiberWidth.Item1 ? Cmin - alphaDeltaC : limits.FiberWidth.Item1;
-                    Cmax = Cmax + alphaDeltaC <= limits.FiberWidth.Item2 ? Cmax + alphaDeltaC : limits.FiberWidth.Item2;
+                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberWidth ? Cmin - alphaDeltaC : limits.MinFiberWidth;
+                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberWidth ? Cmax + alphaDeltaC : limits.MaxFiberWidth;
                     
                     // BLX-alpha crossingover
                     newOffspring.FiberWidth = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -101,8 +101,8 @@ namespace CompositeGUI
                     alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.FiberThickness.Item1 ? Cmin - alphaDeltaC : limits.FiberThickness.Item1;
-                    Cmax = Cmax + alphaDeltaC <= limits.FiberThickness.Item2 ? Cmax + alphaDeltaC : limits.FiberThickness.Item2;
+                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberThickness ? Cmin - alphaDeltaC : limits.MinFiberThickness;
+                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberThickness ? Cmax + alphaDeltaC : limits.MaxFiberThickness;
 
                     // BLX-alpha crossingover
                     newOffspring.FiberThickness = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -114,8 +114,8 @@ namespace CompositeGUI
                     alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.FiberSpaceBetween.Item1 ? Cmin - alphaDeltaC : limits.FiberSpaceBetween.Item1;
-                    Cmax = Cmax + alphaDeltaC <= limits.FiberSpaceBetween.Item2 ? Cmax + alphaDeltaC : limits.FiberSpaceBetween.Item2;
+                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberSpaceBetween ? Cmin - alphaDeltaC : limits.MinFiberSpaceBetween;
+                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberSpaceBetween ? Cmax + alphaDeltaC : limits.MaxFiberSpaceBetween;
 
                     // BLX-alpha crossingover
                     newOffspring.FiberSpaceBetween = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -138,18 +138,18 @@ namespace CompositeGUI
                 { 
                     // Ширина
                     c.FiberWidth += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberWidth > limits.FiberWidth.Item2) c.FiberWidth = limits.FiberWidth.Item2;
-                    else if (c.FiberWidth < limits.FiberWidth.Item1) c.FiberWidth = limits.FiberWidth.Item1;
+                    if (c.FiberWidth > limits.MaxFiberWidth) c.FiberWidth = limits.MaxFiberWidth;
+                    else if (c.FiberWidth < limits.MinFiberWidth) c.FiberWidth = limits.MinFiberWidth;
 
                     // Толщина
                     c.FiberThickness += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberThickness > limits.FiberThickness.Item2) c.FiberThickness = limits.FiberThickness.Item2;
-                    else if (c.FiberThickness < limits.FiberThickness.Item1) c.FiberThickness = limits.FiberThickness.Item1;
+                    if (c.FiberThickness > limits.MaxFiberThickness) c.FiberThickness = limits.MaxFiberThickness;
+                    else if (c.FiberThickness < limits.MinFiberThickness) c.FiberThickness = limits.MinFiberThickness;
 
                     // Расстояние между волокнами
                     c.FiberSpaceBetween += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberSpaceBetween > limits.FiberSpaceBetween.Item2) c.FiberSpaceBetween = limits.FiberSpaceBetween.Item2;
-                    else if (c.FiberSpaceBetween < limits.FiberSpaceBetween.Item1) c.FiberSpaceBetween = limits.FiberSpaceBetween.Item1;
+                    if (c.FiberSpaceBetween > limits.MaxFiberSpaceBetween) c.FiberSpaceBetween = limits.MaxFiberSpaceBetween;
+                    else if (c.FiberSpaceBetween < limits.MinFiberSpaceBetween) c.FiberSpaceBetween = limits.MinFiberSpaceBetween;
                 }
             }
         }

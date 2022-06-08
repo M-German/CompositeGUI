@@ -55,3 +55,8 @@ C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\Compos
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.OpenProjectForm.resources
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.LimitsForm.resources
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.GeneticAlgorithmForm.resources
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.NoSelectedProjectForm.resources
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\EntityFramework.SqlServer.dll
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\EntityFramework.dll
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.csproj.CopyComplete
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.Migrations.202206081628213_init.resources

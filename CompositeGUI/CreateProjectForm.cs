@@ -24,7 +24,17 @@ namespace CompositeGUI
 
         private void button2_Click(object sender, EventArgs e)
         {
-            this.Close();
+            if(textBox1.Text.Length > 0)
+            {
+                //DB db = new DB();
+                Main.CurrentProject = DB.CreateProject(textBox1.Text);
+                Close();
+            }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            button2.Enabled = textBox1.Text.Length != 0;
         }
     }
 }

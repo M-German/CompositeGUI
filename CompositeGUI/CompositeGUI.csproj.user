@@ -7,6 +7,9 @@
     <Compile Update="GeneticAlgorithmForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="MainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ProjectDataForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -17,9 +20,6 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="LimitsForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="NoProjectDataForm.cs">

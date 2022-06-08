@@ -57,6 +57,7 @@ namespace CompositeGUI
             this.projectComboBox.Name = "projectComboBox";
             this.projectComboBox.Size = new System.Drawing.Size(430, 28);
             this.projectComboBox.TabIndex = 2;
+            this.projectComboBox.SelectedIndexChanged += new System.EventHandler(this.projectComboBox_SelectedIndexChanged);
             // 
             // selectButton
             // 
@@ -66,6 +67,7 @@ namespace CompositeGUI
             this.selectButton.TabIndex = 26;
             this.selectButton.Text = "Выбрать";
             this.selectButton.UseVisualStyleBackColor = true;
+            this.selectButton.Click += new System.EventHandler(this.selectButton_Click);
             // 
             // cancelButton
             // 
@@ -101,6 +103,7 @@ namespace CompositeGUI
             this.Name = "OpenProjectForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Открыть проект";
+            this.Load += new System.EventHandler(this.OpenProjectForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "bEluXJgB1aMmStCfI5PksQUL7Fa2Q/pkCUASkGzEhEpf56H9eBFOfahIdDn6K1sdGHrf13i2QksQ8awv8SwO4A==",
+  "dgSpecHash": "M7/qA1zYTEy0sKLgk+KCDhhpYcFlOzZb/kp580Xn9JKQMccjC47BEtERqhtjTqUo+P/vXbity1om7y9Cr9x2Rg==",
   "success": true,
   "projectFilePath": "C:\\Users\\German\\Desktop\\ВКР\\CompositeGUI\\CompositeGUI\\CompositeGUI.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\German\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512"
+  ],
   "logs": []
 }

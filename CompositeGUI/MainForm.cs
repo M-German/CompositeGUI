@@ -8,21 +8,25 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CompositeGUI.Data;
 
 namespace CompositeGUI
 {
     public partial class MainForm : Based
     {
-        Project currentProject;
         bool noProjectData = false, showStructure = false;
+
         List<List<double>> propData;
         List<Composite> propDataStructre;
 
         NoProjectDataForm noDataForm;
+        NoSelectedProjectForm noProjectForm;
 
         public MainForm()
         {
             InitializeComponent();
+
+            //db = new DB();
 
             propData = new List<List<double>>()
             {
@@ -55,6 +59,34 @@ namespace CompositeGUI
                 new Composite(3, 7.68, 7.64, 1.66),
                 new Composite(3, 7.91, 7.67, 1.84),
             };
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            resultComboBox.SelectedIndex = 0;
+            ShowSelectProjectForm();
+            Main.ProjectList = DB.GetProjects();
+            Main.ProjectChanged += ProjectChangedHandler;
+
+            //заглушка
+            Main.CurrentProject = Main.ProjectList[0];
+        }
+
+        void ProjectChangedHandler()
+        {
+            MessageBox.Show("lol");
+            if (Main.CurrentProject != null)
+            {
+                if (Main.CurrentProject.Composites.Count == 0)
+                {
+                    ShowNoDataForm();
+                }
+                else
+                {
+                    ShowResultsForm();
+                }
+            }
+            else ShowSelectProjectForm();
         }
 
         void FillComposite(int i)
@@ -134,51 +166,57 @@ namespace CompositeGUI
             else DrawSpline(resultComboBox.SelectedIndex - 1);
         }
 
-        void renderForm(object Form)
+        void ShowNoDataForm()
         {
-            if(this.mainPanel.Controls.Count > 0) this.mainPanel.Controls.RemoveAt(0);
-            Form f = Form as Form;
-            f.TopLevel = false;
-            f.Dock = DockStyle.Fill;
-            this.mainPanel.Controls.Add(f);
-            this.mainPanel.Tag = f;
-            f.Show();
-        }
-
-        public delegate void renderFormDelegate(object Form);
-
-        private void MainForm_Load(object sender, EventArgs e)
-        {
-            //////////
-            noDataForm = new NoProjectDataForm();
-            noDataForm.TopLevel = false;
-            noDataForm.Dock = DockStyle.Fill;
-
-            /////////
-            resultComboBox.SelectedIndex = 0;
-
-            //DBConnectionError();
-            //FileAccessError();
-            //InvalidDataError();
-            //MainProcedureError
-
-            //CST cst = new CST();
-            //cst.Test();
-
-            currentProject = new Project();
-
-            if(noProjectData)
+            if(noDataForm == null)
             {
-                this.resultsPanel.Visible = false;
+                noDataForm = new NoProjectDataForm();
+                noDataForm.TopLevel = false;
+                noDataForm.Dock = DockStyle.Fill;
                 this.mainPanel.Controls.Add(noDataForm);
                 noDataForm.Show();
+                CloseSelectProjectForm();
+                this.resultsPanel.Visible = false;
             }
-            else
+        }
+
+        void CloseNoDataForm()
+        {
+            if (noProjectForm != null)
             {
-                this.resultsPanel.Visible = true;
                 this.mainPanel.Controls.Remove(noDataForm);
+                noDataForm = null;
             }
-            //currentProject.Start();
+        }
+
+        void ShowSelectProjectForm()
+        {
+            if (noProjectForm == null)
+            {
+                noProjectForm = new NoSelectedProjectForm();
+                noProjectForm.TopLevel = false;
+                noProjectForm.Dock = DockStyle.Fill;
+                this.mainPanel.Controls.Add(noProjectForm);
+                noProjectForm.Show();
+                CloseNoDataForm();
+                this.resultsPanel.Visible = false;
+            }
+        }
+
+        void CloseSelectProjectForm()
+        {
+            if (noProjectForm != null)
+            {
+                this.mainPanel.Controls.Remove(noProjectForm);
+                noProjectForm = null;
+            }
+        }
+
+        void ShowResultsForm()
+        {
+            this.resultsPanel.Visible = true;
+            CloseSelectProjectForm();
+            CloseNoDataForm();
         }
 
         private void DBConnectionError()
@@ -205,18 +243,6 @@ namespace CompositeGUI
              );
         }
 
-        private void MainProcedureError()
-        {
-            MessageBox.Show(
-                "Ошибка синтеза. Перезапустить проектную процедуру?",
-                "Ошибка",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Error,
-                MessageBoxDefaultButton.Button1,
-                MessageBoxOptions.DefaultDesktopOnly
-             );
-        }
-
         private void InvalidDataError()
         {
             MessageBox.Show(
@@ -231,7 +257,8 @@ namespace CompositeGUI
 
         private void выйтиToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Main.CurrentProject = null;
+            //Close();
         }
 
         private void оПрограммеToolStripMenuItem1_Click(object sender, EventArgs e)

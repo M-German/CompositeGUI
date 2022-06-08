@@ -38,6 +38,7 @@ namespace CompositeGUI
             // 
             // button2
             // 
+            this.button2.Enabled = false;
             this.button2.Location = new System.Drawing.Point(299, 102);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(114, 34);
@@ -62,6 +63,7 @@ namespace CompositeGUI
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(401, 27);
             this.textBox1.TabIndex = 1;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // label1
             // 

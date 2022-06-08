@@ -29,15 +29,16 @@ namespace CompositeGUI
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.проектToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.создатьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openProjectToolstrip = new System.Windows.Forms.ToolStripMenuItem();
-            this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.удалитьПроектToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.выйтиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.projectDataToolstrip = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,23 +51,22 @@ namespace CompositeGUI
             this.помощьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel = new System.Windows.Forms.Panel();
-            this.resultsPanel = new System.Windows.Forms.Panel();
-            this.resultsDataGridView = new System.Windows.Forms.DataGridView();
-            this.resultComboBox = new System.Windows.Forms.ComboBox();
+            this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
+            this.resultComboBox = new System.Windows.Forms.ComboBox();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.resultsDataGridView = new System.Windows.Forms.DataGridView();
+            this.resultsPanel = new System.Windows.Forms.Panel();
             this.NewProjectButton = new System.Windows.Forms.ToolStripButton();
             this.OpenProjectButton = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.удалитьПроектToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button1 = new System.Windows.Forms.Button();
             this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
-            this.resultsPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).BeginInit();
+            this.resultsPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // toolStrip1
@@ -113,30 +113,37 @@ namespace CompositeGUI
             this.проектToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.проектToolStripMenuItem.Text = "Файл";
             // 
+            // сохранитьToolStripMenuItem
+            // 
+            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
+            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
+            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            // 
             // создатьToolStripMenuItem
             // 
             this.создатьToolStripMenuItem.Name = "создатьToolStripMenuItem";
-            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.создатьToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.создатьToolStripMenuItem.Text = "Создать проект";
             this.создатьToolStripMenuItem.Click += new System.EventHandler(this.создатьToolStripMenuItem_Click);
             // 
             // openProjectToolstrip
             // 
             this.openProjectToolstrip.Name = "openProjectToolstrip";
-            this.openProjectToolstrip.Size = new System.Drawing.Size(224, 26);
+            this.openProjectToolstrip.Size = new System.Drawing.Size(219, 26);
             this.openProjectToolstrip.Text = "Открыть проект";
             this.openProjectToolstrip.Click += new System.EventHandler(this.openProjectToolstrip_Click);
             // 
-            // сохранитьToolStripMenuItem
+            // удалитьПроектToolStripMenuItem
             // 
-            this.сохранитьToolStripMenuItem.Name = "сохранитьToolStripMenuItem";
-            this.сохранитьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.сохранитьToolStripMenuItem.Text = "Сохранить";
+            this.удалитьПроектToolStripMenuItem.Name = "удалитьПроектToolStripMenuItem";
+            this.удалитьПроектToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
+            this.удалитьПроектToolStripMenuItem.Text = "Удалить проект";
+            this.удалитьПроектToolStripMenuItem.Click += new System.EventHandler(this.удалитьПроектToolStripMenuItem_Click);
             // 
             // выйтиToolStripMenuItem
             // 
             this.выйтиToolStripMenuItem.Name = "выйтиToolStripMenuItem";
-            this.выйтиToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
+            this.выйтиToolStripMenuItem.Size = new System.Drawing.Size(219, 26);
             this.выйтиToolStripMenuItem.Text = "Выйти";
             this.выйтиToolStripMenuItem.Click += new System.EventHandler(this.выйтиToolStripMenuItem_Click);
             // 
@@ -225,33 +232,24 @@ namespace CompositeGUI
             this.mainPanel.TabIndex = 7;
             this.mainPanel.Tag = "";
             // 
-            // resultsPanel
+            // button1
             // 
-            this.resultsPanel.Controls.Add(this.button1);
-            this.resultsPanel.Controls.Add(this.label1);
-            this.resultsPanel.Controls.Add(this.resultsDataGridView);
-            this.resultsPanel.Controls.Add(this.toolStrip1);
-            this.resultsPanel.Controls.Add(this.resultComboBox);
-            this.resultsPanel.Controls.Add(this.chart1);
-            this.resultsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.resultsPanel.Location = new System.Drawing.Point(0, 0);
-            this.resultsPanel.Name = "resultsPanel";
-            this.resultsPanel.Size = new System.Drawing.Size(1583, 657);
-            this.resultsPanel.TabIndex = 7;
+            this.button1.Location = new System.Drawing.Point(1313, 42);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(258, 28);
+            this.button1.TabIndex = 5;
+            this.button1.Text = "Показать структуру";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // resultsDataGridView
+            // label1
             // 
-            this.resultsDataGridView.AllowUserToAddRows = false;
-            this.resultsDataGridView.AllowUserToDeleteRows = false;
-            this.resultsDataGridView.BackgroundColor = System.Drawing.Color.White;
-            this.resultsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.resultsDataGridView.Location = new System.Drawing.Point(962, 79);
-            this.resultsDataGridView.Name = "resultsDataGridView";
-            this.resultsDataGridView.ReadOnly = true;
-            this.resultsDataGridView.RowHeadersWidth = 51;
-            this.resultsDataGridView.RowTemplate.Height = 24;
-            this.resultsDataGridView.Size = new System.Drawing.Size(609, 560);
-            this.resultsDataGridView.TabIndex = 0;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(958, 45);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(132, 20);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Отображается:";
             // 
             // resultComboBox
             // 
@@ -267,14 +265,45 @@ namespace CompositeGUI
             this.resultComboBox.TabIndex = 2;
             this.resultComboBox.SelectedIndexChanged += new System.EventHandler(this.resultComboBox_SelectedIndexChanged);
             // 
-            // label1
+            // chart1
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(958, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(132, 20);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Отображается:";
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 42);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(1000, 597);
+            this.chart1.TabIndex = 4;
+            this.chart1.Text = "chart1";
+            // 
+            // resultsDataGridView
+            // 
+            this.resultsDataGridView.AllowUserToAddRows = false;
+            this.resultsDataGridView.AllowUserToDeleteRows = false;
+            this.resultsDataGridView.BackgroundColor = System.Drawing.Color.White;
+            this.resultsDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.resultsDataGridView.Location = new System.Drawing.Point(962, 79);
+            this.resultsDataGridView.Name = "resultsDataGridView";
+            this.resultsDataGridView.ReadOnly = true;
+            this.resultsDataGridView.RowHeadersWidth = 51;
+            this.resultsDataGridView.RowTemplate.Height = 24;
+            this.resultsDataGridView.Size = new System.Drawing.Size(609, 560);
+            this.resultsDataGridView.TabIndex = 0;
+            // 
+            // resultsPanel
+            // 
+            this.resultsPanel.Controls.Add(this.button1);
+            this.resultsPanel.Controls.Add(this.label1);
+            this.resultsPanel.Controls.Add(this.resultsDataGridView);
+            this.resultsPanel.Controls.Add(this.toolStrip1);
+            this.resultsPanel.Controls.Add(this.resultComboBox);
+            this.resultsPanel.Controls.Add(this.chart1);
+            this.resultsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.resultsPanel.Location = new System.Drawing.Point(0, 0);
+            this.resultsPanel.Name = "resultsPanel";
+            this.resultsPanel.Size = new System.Drawing.Size(1583, 657);
+            this.resultsPanel.TabIndex = 7;
             // 
             // NewProjectButton
             // 
@@ -313,35 +342,6 @@ namespace CompositeGUI
             this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
             this.toolStripButton4.Text = "toolStripButton4";
             // 
-            // chart1
-            // 
-            chartArea6.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chart1.Legends.Add(legend6);
-            this.chart1.Location = new System.Drawing.Point(0, 42);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1000, 597);
-            this.chart1.TabIndex = 4;
-            this.chart1.Text = "chart1";
-            // 
-            // удалитьПроектToolStripMenuItem
-            // 
-            this.удалитьПроектToolStripMenuItem.Name = "удалитьПроектToolStripMenuItem";
-            this.удалитьПроектToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
-            this.удалитьПроектToolStripMenuItem.Text = "Удалить проект";
-            this.удалитьПроектToolStripMenuItem.Click += new System.EventHandler(this.удалитьПроектToolStripMenuItem_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(1313, 42);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(258, 28);
-            this.button1.TabIndex = 5;
-            this.button1.Text = "Показать структуру";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
@@ -361,10 +361,10 @@ namespace CompositeGUI
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.mainPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).EndInit();
             this.resultsPanel.ResumeLayout(false);
             this.resultsPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -394,13 +394,13 @@ namespace CompositeGUI
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.ToolStripButton NewProjectButton;
         private System.Windows.Forms.ToolStripButton OpenProjectButton;
-        private System.Windows.Forms.Panel resultsPanel;
-        private System.Windows.Forms.DataGridView resultsDataGridView;
         private System.Windows.Forms.ComboBox resultComboBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.ToolStripMenuItem удалитьПроектToolStripMenuItem;
         private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Panel resultsPanel;
+        private System.Windows.Forms.DataGridView resultsDataGridView;
     }
 }
 
