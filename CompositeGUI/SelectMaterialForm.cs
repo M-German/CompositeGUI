@@ -26,17 +26,22 @@ namespace CompositeGUI
             selectedIndex = _selectedIndex;
         }
 
-        private void SelectMaterialForm_Load(object sender, EventArgs e)
+        void FillMaterialsComboBox()
         {
             comboBox1.Items.Clear();
             comboBox1.Items.Add("Новый материал");
             foreach (var item in materials) comboBox1.Items.Add(item.Name);
+        }
+
+        private void SelectMaterialForm_Load(object sender, EventArgs e)
+        {
+            FillMaterialsComboBox();
             comboBox1.SelectedIndex = selectedIndex;
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if(comboBox1.SelectedIndex == 0)
+            if (comboBox1.SelectedIndex == 0)
             {
                 nameTextBox.Text = "Новый материал";
                 elecUpDown.Value = 0;
@@ -47,13 +52,14 @@ namespace CompositeGUI
             }
             else
             {
-                nameTextBox.Text = materials[selectedIndex - 1].Name; 
-                elecUpDown.Value = Convert.ToDecimal(materials[selectedIndex - 1].ElecCond);
-                thermalUpDown.Value = Convert.ToDecimal(materials[selectedIndex - 1].ThermalCond);
-                magUpDown.Value = Convert.ToDecimal(materials[selectedIndex - 1].MagCond);
-                densityUpDown.Value = Convert.ToDecimal(materials[selectedIndex - 1].Density);
-                SelectedMaterialId = materials[selectedIndex - 1].MaterialId;
+                nameTextBox.Text = materials[comboBox1.SelectedIndex - 1].Name; 
+                elecUpDown.Value = Convert.ToDecimal(materials[comboBox1.SelectedIndex - 1].ElecCond);
+                thermalUpDown.Value = Convert.ToDecimal(materials[comboBox1.SelectedIndex - 1].ThermalCond);
+                magUpDown.Value = Convert.ToDecimal(materials[comboBox1.SelectedIndex - 1].MagCond);
+                densityUpDown.Value = Convert.ToDecimal(materials[comboBox1.SelectedIndex - 1].Density);
+                SelectedMaterialId = materials[comboBox1.SelectedIndex - 1].MaterialId;
             }
+            deleteButton.Enabled = SelectedMaterialId != 0;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -61,7 +67,7 @@ namespace CompositeGUI
             Close();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void button2_Click(object sender, EventArgs e) // save
         {
             Material material = new Material()
             {
@@ -73,14 +79,33 @@ namespace CompositeGUI
             };
             if (comboBox1.SelectedIndex == 0) // add new
             {
-                DB.AddMaterial(material);
+                SelectedMaterialId = DB.AddMaterial(material).MaterialId;
             }
             else // edit
             {
                 material.MaterialId = materials[comboBox1.SelectedIndex - 1].MaterialId;
                 DB.EditMaterial(material);
+                SelectedMaterialId = material.MaterialId;
             }
             Close();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (SelectedMaterialId != 0 && comboBox1.SelectedIndex != 0)
+            {
+                DialogResult res = MessageBox.Show(
+                    "Вы действительно хотите удалить этот материал?",
+                    "Предупреждение",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning
+                );
+                if (res != DialogResult.Yes) return;
+                DB.DeleteMaterial(SelectedMaterialId);
+                materials.Remove(materials[comboBox1.SelectedIndex-1]);
+                FillMaterialsComboBox();
+                comboBox1.SelectedIndex = 0;
+            } 
         }
     }
 }

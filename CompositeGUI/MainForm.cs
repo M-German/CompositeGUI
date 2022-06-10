@@ -69,12 +69,12 @@ namespace CompositeGUI
             Main.ProjectChanged += ProjectChangedHandler;
 
             //заглушка
-            Main.CurrentProject = Main.ProjectList[0];
+            //Main.CurrentProject = Main.ProjectList[0];
         }
 
         void ProjectChangedHandler()
         {
-            MessageBox.Show("lol");
+            //MessageBox.Show("lol");
             if (Main.CurrentProject != null)
             {
                 if (Main.CurrentProject.Composites.Count == 0)

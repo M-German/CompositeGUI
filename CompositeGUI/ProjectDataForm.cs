@@ -32,6 +32,12 @@ namespace CompositeGUI
 
         void FillMaterials()
         {
+            int fiberMaterialId = 0, matrixMaterialId = 0;
+            if (materials != null)
+            {
+                fiberMaterialId = fiberComboBox.SelectedIndex != 0 ? materials[fiberComboBox.SelectedIndex - 1].MaterialId : 0;
+                matrixMaterialId = matrixComboBox.SelectedIndex != 0 ? materials[matrixComboBox.SelectedIndex - 1].MaterialId : 0;
+            }
             string noMaterial = "Нет материала";
             matrixComboBox.Items.Clear();
             fiberComboBox.Items.Clear();
@@ -48,6 +54,8 @@ namespace CompositeGUI
                     fiberComboBox.Items.Add(item.Name);
                 }
             }
+            fiberComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == fiberMaterialId) + 1;
+            matrixComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == matrixMaterialId) + 1;
         }
 
         private void button1_Click(object sender, EventArgs e)

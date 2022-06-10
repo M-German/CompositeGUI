@@ -87,6 +87,23 @@ namespace CompositeGUI
                 return newM;
             }
         }
+
+        public static void DeleteMaterial(int id)
+        {
+            using (DataContext db = new DataContext())
+            {
+                Material material = new Material() { MaterialId = id };
+                foreach (Project p in db.Projects.Where(p => p.MatrixMaterialId == id))
+                    p.MatrixMaterialId = null;
+
+                foreach (Project p in db.Projects.Where(p => p.FiberMaterialId == id))
+                    p.FiberMaterialId = null;
+
+                db.Materials.Attach(material);
+                db.Materials.Remove(material);
+                db.SaveChanges();
+            }
+        }
     }
    
 }

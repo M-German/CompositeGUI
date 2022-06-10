@@ -44,6 +44,7 @@ namespace CompositeGUI
             this.nameLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.densityUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.magUpDown)).BeginInit();
@@ -197,9 +198,9 @@ namespace CompositeGUI
             this.magLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.magLabel.Location = new System.Drawing.Point(2, 164);
             this.magLabel.Name = "magLabel";
-            this.magLabel.Size = new System.Drawing.Size(257, 23);
+            this.magLabel.Size = new System.Drawing.Size(271, 23);
             this.magLabel.TabIndex = 23;
-            this.magLabel.Text = "Магнитная проводимость:";
+            this.magLabel.Text = "Магнитная проницаемость:";
             // 
             // nameTextBox
             // 
@@ -237,19 +238,31 @@ namespace CompositeGUI
             "Эпоксидная смола"});
             this.comboBox1.Location = new System.Drawing.Point(12, 48);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(557, 28);
+            this.comboBox1.Size = new System.Drawing.Size(520, 28);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(538, 47);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(31, 29);
+            this.deleteButton.TabIndex = 48;
+            this.deleteButton.Text = "X";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // SelectMaterialForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(584, 405);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.comboBox1);
             this.Name = "SelectMaterialForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Выбор материала волокна";
             this.Load += new System.EventHandler(this.SelectMaterialForm_Load);
             this.panel1.ResumeLayout(false);
@@ -280,5 +293,6 @@ namespace CompositeGUI
         private System.Windows.Forms.NumericUpDown densityUpDown;
         private System.Windows.Forms.Label densityLabel;
         private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Button deleteButton;
     }
 }

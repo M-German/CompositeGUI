@@ -59,4 +59,4 @@ C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\Compos
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\EntityFramework.SqlServer.dll
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\EntityFramework.dll
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.csproj.CopyComplete
-C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.Migrations.202206081628213_init.resources
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.Migrations.202206081614344_InitialCreate.resources
