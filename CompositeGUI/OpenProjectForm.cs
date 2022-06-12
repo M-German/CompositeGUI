@@ -45,7 +45,7 @@ namespace CompositeGUI
 
         private void selectButton_Click(object sender, EventArgs e)
         {
-            Main.CurrentProject = Main.ProjectList[projectComboBox.SelectedIndex];
+            Main.CurrentProject = DB.GetProject(Main.ProjectList[projectComboBox.SelectedIndex].ProjectId);
             Close();
         }
 

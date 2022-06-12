@@ -35,12 +35,7 @@ namespace CompositeGUI
 
         public void Start()
         {
-            /*GeneticAlgorithm ga = new GeneticAlgorithm(
-                ga_settings, hasMetalGrid, matrixMaterial,
-                fiberMaterial, limits, frequency
-            );
-
-            ga.Start();*/
+            
         }
 
         public Project()
@@ -49,19 +44,6 @@ namespace CompositeGUI
             HasMetalGrid = true;
             MinFrequency = 0.1;
             MaxFrequency = 1;
-            // Заглушка
-            /*Material Graphite = new Material("Графит", 12, 1, 24, 2230);
-            Material Epoxyresin = new Material("Эпоксидная смола", 4, 1, 0.2, 1500);
-
-            this.ga_settings = new GA_Settings(4, 3, 2);
-            this.hasMetalGrid = true;
-            this.matrixMaterial = Epoxyresin;
-            this.fiberMaterial = Graphite;
-            this.limits.FiberWidth = (5, 10);
-            this.limits.FiberThickness = (5, 10);
-            this.limits.FiberSpaceBetween = (0.1, 3);
-            this.limits.LayerCount = (2, 3);
-            this.frequency = (0.1, 3);*/
         }
     }
 }

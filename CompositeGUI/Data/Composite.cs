@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CompositeGUI.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -14,12 +15,15 @@ namespace CompositeGUI
         public double FiberThickness { get; set; }
         public double FiberSpaceBetween { get; set; }
         public double ShieldingEfficiency { get; set; }
-        public string Diagrams { get; set; }
-       
+        public int Generation { get; set; }
+
+
         [Required]
         public int ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public Project Project { get; set; }
+
+        public ICollection<CstResult> CstResults { get; set; }
 
         public Composite() : this(1, 1, 1, 1) { }
 
@@ -34,6 +38,10 @@ namespace CompositeGUI
             this.FiberWidth = FiberWidth;
             this.FiberThickness = FiberThickness;
             this.FiberSpaceBetween = FiberSpaceBetween;
+
+            Generation = 1;
+
+            CstResults = new List<CstResult>();
         }
     }
 }

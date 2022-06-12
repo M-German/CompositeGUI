@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="CST_exports\**" />
+    <EmbeddedResource Remove="CST_exports\**" />
+    <None Remove="CST_exports\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
   </ItemGroup>
 
@@ -17,6 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="SimulationStatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="NoSelectedProjectForm.cs">
       <SubType>Form</SubType>
     </Compile>

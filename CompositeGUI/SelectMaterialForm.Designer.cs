@@ -84,17 +84,18 @@ namespace CompositeGUI
             // 
             // densityUpDown
             // 
+            this.densityUpDown.DecimalPlaces = 2;
+            this.densityUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.densityUpDown.Location = new System.Drawing.Point(305, 215);
             this.densityUpDown.Maximum = new decimal(new int[] {
-            10000,
+            100000,
             0,
             0,
             0});
-            this.densityUpDown.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
             this.densityUpDown.Name = "densityUpDown";
             this.densityUpDown.Size = new System.Drawing.Size(254, 27);
             this.densityUpDown.TabIndex = 31;
@@ -121,17 +122,13 @@ namespace CompositeGUI
             // 
             // magUpDown
             // 
+            this.magUpDown.DecimalPlaces = 2;
+            this.magUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.magUpDown.Location = new System.Drawing.Point(304, 164);
-            this.magUpDown.Maximum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            0});
-            this.magUpDown.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
             this.magUpDown.Name = "magUpDown";
             this.magUpDown.Size = new System.Drawing.Size(254, 27);
             this.magUpDown.TabIndex = 29;
@@ -149,17 +146,18 @@ namespace CompositeGUI
             // 
             // thermalUpDown
             // 
+            this.thermalUpDown.DecimalPlaces = 2;
+            this.thermalUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.thermalUpDown.Location = new System.Drawing.Point(304, 120);
             this.thermalUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.thermalUpDown.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
             this.thermalUpDown.Name = "thermalUpDown";
             this.thermalUpDown.Size = new System.Drawing.Size(254, 27);
             this.thermalUpDown.TabIndex = 28;
@@ -177,17 +175,18 @@ namespace CompositeGUI
             // 
             // elecUpDown
             // 
+            this.elecUpDown.DecimalPlaces = 2;
+            this.elecUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
             this.elecUpDown.Location = new System.Drawing.Point(304, 74);
             this.elecUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
-            this.elecUpDown.Minimum = new decimal(new int[] {
-            10000,
-            0,
-            0,
-            -2147483648});
             this.elecUpDown.Name = "elecUpDown";
             this.elecUpDown.Size = new System.Drawing.Size(254, 27);
             this.elecUpDown.TabIndex = 27;

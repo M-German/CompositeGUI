@@ -127,6 +127,7 @@ namespace CompositeGUI
             this.matrixComboBox.Name = "matrixComboBox";
             this.matrixComboBox.Size = new System.Drawing.Size(215, 28);
             this.matrixComboBox.TabIndex = 15;
+            this.matrixComboBox.SelectedIndexChanged += new System.EventHandler(this.matrixComboBox_SelectedIndexChanged);
             // 
             // fiberComboBox
             // 
@@ -138,6 +139,7 @@ namespace CompositeGUI
             this.fiberComboBox.Name = "fiberComboBox";
             this.fiberComboBox.Size = new System.Drawing.Size(215, 28);
             this.fiberComboBox.TabIndex = 16;
+            this.fiberComboBox.SelectedIndexChanged += new System.EventHandler(this.fiberComboBox_SelectedIndexChanged);
             // 
             // freqLabel
             // 

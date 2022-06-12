@@ -9,18 +9,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompositeGUI.Data;
+using System.Threading;
 
 namespace CompositeGUI
 {
     public partial class MainForm : Based
     {
-        bool noProjectData = false, showStructure = false;
+        bool showStructure = false;
 
         List<List<double>> propData;
         List<Composite> propDataStructre;
 
         NoProjectDataForm noDataForm;
         NoSelectedProjectForm noProjectForm;
+        SimulationStatusForm statusForm;
 
         public MainForm()
         {
@@ -61,23 +63,31 @@ namespace CompositeGUI
             };
         }
 
+
+
         private void MainForm_Load(object sender, EventArgs e)
         {
             resultComboBox.SelectedIndex = 0;
+            UpdateMenuState();
             ShowSelectProjectForm();
             Main.ProjectList = DB.GetProjects();
             Main.ProjectChanged += ProjectChangedHandler;
+            Main.SimulationStatusChanged += ProjectChangedHandler;
 
             //заглушка
             //Main.CurrentProject = Main.ProjectList[0];
         }
 
+
         void ProjectChangedHandler()
         {
-            //MessageBox.Show("lol");
             if (Main.CurrentProject != null)
             {
-                if (Main.CurrentProject.Composites.Count == 0)
+                if (Main.InProcess())
+                {
+                    ShowStatusForm();
+                }
+                else if (Main.CurrentProject.Composites.Count == 0)
                 {
                     ShowNoDataForm();
                 }
@@ -86,7 +96,173 @@ namespace CompositeGUI
                     ShowResultsForm();
                 }
             }
-            else ShowSelectProjectForm();
+            else
+            {
+                ShowSelectProjectForm();
+            }
+            UpdateMenuState();
+        }
+
+        void UpdateMenuState()
+        {
+            if(Main.CurrentProject == null)
+            {
+                toolStrip1.Visible = false;
+                menuStrip1.Items[0].Enabled = false;
+                menuStrip1.Items[1].Enabled = false;
+                menuStrip1.Items[2].Enabled = false;
+            }
+            else if(Main.InProcess())
+            {
+                toolStrip1.Visible = true;
+                menuStrip1.Items[0].Enabled = false;
+                menuStrip1.Items[1].Enabled = true;
+                menuStrip1.Items[2].Enabled = false;
+            }
+            else
+            {
+                toolStrip1.Visible = true;
+                menuStrip1.Items[0].Enabled = true;
+                menuStrip1.Items[1].Enabled = true;
+                menuStrip1.Items[2].Enabled = true;
+            }
+        }
+
+        private bool ProjectConfigured()
+        {
+            if (Main.CurrentProject.LimitsId == null)
+            {
+                return false;
+            }
+            if (Main.CurrentProject.GaSettingsId == null)
+            {
+                return false;
+            }
+            if (Main.CurrentProject.MatrixMaterialId == null)
+            {
+                return false;
+            }
+            if (Main.CurrentProject.FiberMaterialId == null)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public delegate void StartDelegate();
+        public delegate SimulationStatus SetStatusDelegate(SimulationStatus status);
+        public delegate void UpdateStatusForThreadDelegate(SimulationStatus status);
+
+        public void Start()
+        {
+            if (ProjectConfigured())
+            {
+                Thread gaThread = new Thread(InitializeGeneticAlgorithm);
+                gaThread.Name = "GA Thread";
+                gaThread.IsBackground = true;
+                gaThread.Start();
+            }
+            else ProjectConfigError();
+        }
+
+        void InitializeGeneticAlgorithm()
+        {
+            UpdateStatusForThreadDelegate UpdateStatusDelegate = new UpdateStatusForThreadDelegate(UpdateStatusForThread);
+
+            GeneticAlgorithm ga = new GeneticAlgorithm(
+                DB.GetProject(Main.CurrentProject.ProjectId),
+                UpdateStatusDelegate
+            );
+            ga.Start();
+        }
+
+        public void UpdateStatusForThread(SimulationStatus status)
+        {
+            SetStatusDelegate del = new SetStatusDelegate(Main.SetStatus);
+            if(this.IsHandleCreated)
+                this.BeginInvoke(del, status);
+        }
+
+        void ShowNoDataForm()
+        {
+            if(noDataForm == null)
+            {
+                CloseAllForms();
+                noDataForm = new NoProjectDataForm(new StartDelegate(Start));
+                noDataForm.TopLevel = false;
+                noDataForm.Dock = DockStyle.Fill;
+                mainPanel.Controls.Add(noDataForm);
+                noDataForm.Show();
+                resultsPanel.Visible = false;
+            }
+        }
+
+        void CloseNoDataForm()
+        {
+            if (noDataForm != null)
+            {
+                mainPanel.Controls.Remove(noDataForm);
+                noDataForm = null;
+            }
+        }
+
+        void ShowSelectProjectForm()
+        {
+            if (noProjectForm == null)
+            {
+                CloseAllForms();
+                noProjectForm = new NoSelectedProjectForm();
+                noProjectForm.TopLevel = false;
+                noProjectForm.Dock = DockStyle.Fill;
+                mainPanel.Controls.Add(noProjectForm);
+                noProjectForm.Show();
+                resultsPanel.Visible = false;
+            }
+        }
+
+        void CloseSelectProjectForm()
+        {
+            if (noProjectForm != null)
+            {
+                this.mainPanel.Controls.Remove(noProjectForm);
+                noProjectForm = null;
+            }
+        }
+
+        void ShowStatusForm()
+        {
+            if (statusForm == null)
+            {
+                CloseAllForms();
+                statusForm = new SimulationStatusForm();
+                statusForm.TopLevel = false;
+                statusForm.Dock = DockStyle.Fill;
+                mainPanel.Controls.Add(statusForm);
+                statusForm.Show();
+                resultsPanel.Visible = false;
+            }
+        }
+
+        void CloseStatusForm()
+        {
+            if (statusForm != null)
+            {
+                mainPanel.Controls.Remove(statusForm);
+                statusForm = null;
+            }
+        }
+
+        void CloseAllForms()
+        {
+            CloseStatusForm();
+            CloseSelectProjectForm();
+            CloseNoDataForm();
+        }
+
+        void ShowResultsForm()
+        {
+            CloseAllForms();
+            resultsPanel.Visible = true;
         }
 
         void FillComposite(int i)
@@ -104,7 +280,7 @@ namespace CompositeGUI
             resultsDataGridView.Rows.Clear();
             resultsDataGridView.Columns.Clear();
 
-            if(!showStructure)
+            if (!showStructure)
             {
                 resultsDataGridView.Columns.Add("Column1", "f (ГГц)");
                 if (resultComboBox.SelectedIndex == 1)
@@ -145,7 +321,7 @@ namespace CompositeGUI
                 }
                 else FillComposite(resultComboBox.SelectedIndex - 1);
             }
-            
+
             this.resultsDataGridView.ClearSelection();
         }
 
@@ -161,71 +337,18 @@ namespace CompositeGUI
         {
             this.chart1.Series.Clear();
             chart1.ChartAreas[0].AxisY.Minimum = 33;
-            if(resultComboBox.SelectedIndex == 0)
+            if (resultComboBox.SelectedIndex == 0)
                 for (int i = 0; i < 3; i++) DrawSpline(i);
             else DrawSpline(resultComboBox.SelectedIndex - 1);
         }
 
-        void ShowNoDataForm()
-        {
-            if(noDataForm == null)
-            {
-                noDataForm = new NoProjectDataForm();
-                noDataForm.TopLevel = false;
-                noDataForm.Dock = DockStyle.Fill;
-                this.mainPanel.Controls.Add(noDataForm);
-                noDataForm.Show();
-                CloseSelectProjectForm();
-                this.resultsPanel.Visible = false;
-            }
-        }
-
-        void CloseNoDataForm()
-        {
-            if (noProjectForm != null)
-            {
-                this.mainPanel.Controls.Remove(noDataForm);
-                noDataForm = null;
-            }
-        }
-
-        void ShowSelectProjectForm()
-        {
-            if (noProjectForm == null)
-            {
-                noProjectForm = new NoSelectedProjectForm();
-                noProjectForm.TopLevel = false;
-                noProjectForm.Dock = DockStyle.Fill;
-                this.mainPanel.Controls.Add(noProjectForm);
-                noProjectForm.Show();
-                CloseNoDataForm();
-                this.resultsPanel.Visible = false;
-            }
-        }
-
-        void CloseSelectProjectForm()
-        {
-            if (noProjectForm != null)
-            {
-                this.mainPanel.Controls.Remove(noProjectForm);
-                noProjectForm = null;
-            }
-        }
-
-        void ShowResultsForm()
-        {
-            this.resultsPanel.Visible = true;
-            CloseSelectProjectForm();
-            CloseNoDataForm();
-        }
-
-        private void DBConnectionError()
+        private void ProjectConfigError()
         {
             MessageBox.Show(
-                "Ошибка подключения к БД",
+                "Вы настроили не все проектные параметры",
                 "Ошибка",
                 MessageBoxButtons.OK,
-                MessageBoxIcon.Error,
+                MessageBoxIcon.Warning,
                 MessageBoxDefaultButton.Button1,
                 MessageBoxOptions.DefaultDesktopOnly
              );
@@ -325,6 +448,11 @@ namespace CompositeGUI
                 MessageBoxButtons.YesNo, 
                 MessageBoxIcon.Warning
             );
+        }
+
+        private void startToolstrip_Click(object sender, EventArgs e)
+        {
+            Start();
         }
     }
 }

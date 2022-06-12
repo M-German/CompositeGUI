@@ -13,6 +13,9 @@ namespace CompositeGUI
     public partial class ProjectDataForm : Based
     {
         List<Material> materials;
+        int? selectedFiberMaterialId;
+        int? selectedMatrixMaterialId;
+
         public ProjectDataForm()
         {
             InitializeComponent();
@@ -20,6 +23,8 @@ namespace CompositeGUI
 
         private void AdvancedOptionsForm_Load(object sender, EventArgs e)
         {
+            selectedFiberMaterialId = Main.CurrentProject.FiberMaterialId;
+            selectedMatrixMaterialId = Main.CurrentProject.MatrixMaterialId;
             nameTextBox.Text = Main.CurrentProject.Name;
             FillMaterials();
             metalGridComboBox.SelectedIndex = Main.CurrentProject.HasMetalGrid ? 0 : 1;
@@ -32,12 +37,6 @@ namespace CompositeGUI
 
         void FillMaterials()
         {
-            int fiberMaterialId = 0, matrixMaterialId = 0;
-            if (materials != null)
-            {
-                fiberMaterialId = fiberComboBox.SelectedIndex != 0 ? materials[fiberComboBox.SelectedIndex - 1].MaterialId : 0;
-                matrixMaterialId = matrixComboBox.SelectedIndex != 0 ? materials[matrixComboBox.SelectedIndex - 1].MaterialId : 0;
-            }
             string noMaterial = "Нет материала";
             matrixComboBox.Items.Clear();
             fiberComboBox.Items.Clear();
@@ -54,8 +53,8 @@ namespace CompositeGUI
                     fiberComboBox.Items.Add(item.Name);
                 }
             }
-            fiberComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == fiberMaterialId) + 1;
-            matrixComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == matrixMaterialId) + 1;
+            fiberComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == selectedFiberMaterialId) + 1;
+            matrixComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == selectedMatrixMaterialId) + 1;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -91,21 +90,33 @@ namespace CompositeGUI
         {
             SelectMaterialForm f = new SelectMaterialForm(materials, true, matrixComboBox.SelectedIndex);
             f.ShowDialog();
+            selectedMatrixMaterialId = f.SelectedMaterialId;
             FillMaterials();
-            matrixComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == f.SelectedMaterialId) + 1;
         }
 
         private void fiberButton_Click(object sender, EventArgs e)
         {
             SelectMaterialForm f = new SelectMaterialForm(materials, false, fiberComboBox.SelectedIndex);
             f.ShowDialog();
+            selectedFiberMaterialId = f.SelectedMaterialId;
             FillMaterials();
-            fiberComboBox.SelectedIndex = materials.FindIndex(m => m.MaterialId == f.SelectedMaterialId) + 1;
         }
 
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
             saveButton.Enabled = nameTextBox.Text.Length != 0;
+        }
+
+        private void matrixComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (matrixComboBox.SelectedIndex != 0)
+                selectedMatrixMaterialId = materials[matrixComboBox.SelectedIndex-1].MaterialId;
+        }
+
+        private void fiberComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (fiberComboBox.SelectedIndex != 0)
+                selectedFiberMaterialId = materials[fiberComboBox.SelectedIndex-1].MaterialId;
         }
     }
 }

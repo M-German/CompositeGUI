@@ -35,6 +35,7 @@ namespace CompositeGUI
 
         private void SelectMaterialForm_Load(object sender, EventArgs e)
         {
+            Text = isMatrixMaterial ? "Выбор материала матрицы" : "Выбор материала волокна";
             FillMaterialsComboBox();
             comboBox1.SelectedIndex = selectedIndex;
         }
@@ -103,6 +104,8 @@ namespace CompositeGUI
                 if (res != DialogResult.Yes) return;
                 DB.DeleteMaterial(SelectedMaterialId);
                 materials.Remove(materials[comboBox1.SelectedIndex-1]);
+                if (Main.CurrentProject.MatrixMaterialId == SelectedMaterialId) Main.CurrentProject.MatrixMaterialId = null;
+                if (Main.CurrentProject.FiberMaterialId == SelectedMaterialId) Main.CurrentProject.FiberMaterialId = null;
                 FillMaterialsComboBox();
                 comboBox1.SelectedIndex = 0;
             } 

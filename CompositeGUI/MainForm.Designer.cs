@@ -134,7 +134,7 @@ namespace CompositeGUI
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1583, 30);
+            this.menuStrip1.Size = new System.Drawing.Size(1583, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -147,7 +147,7 @@ namespace CompositeGUI
             this.удалитьПроектToolStripMenuItem,
             this.выйтиToolStripMenuItem});
             this.проектToolStripMenuItem.Name = "проектToolStripMenuItem";
-            this.проектToolStripMenuItem.Size = new System.Drawing.Size(67, 26);
+            this.проектToolStripMenuItem.Size = new System.Drawing.Size(67, 24);
             this.проектToolStripMenuItem.Text = "Файл";
             // 
             // сохранитьToolStripMenuItem
@@ -191,7 +191,7 @@ namespace CompositeGUI
             this.limitsToolstrip,
             this.algorithmToolstrip});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
-            this.dataToolStripMenuItem.Size = new System.Drawing.Size(177, 26);
+            this.dataToolStripMenuItem.Size = new System.Drawing.Size(177, 24);
             this.dataToolStripMenuItem.Text = "Проектные данные";
             // 
             // projectDataToolstrip
@@ -221,7 +221,7 @@ namespace CompositeGUI
             this.exportToolstrip,
             this.startToolstrip});
             this.выполнитьToolStripMenuItem.Name = "выполнитьToolStripMenuItem";
-            this.выполнитьToolStripMenuItem.Size = new System.Drawing.Size(109, 26);
+            this.выполнитьToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
             this.выполнитьToolStripMenuItem.Text = "Выполнить";
             // 
             // exportToolstrip
@@ -235,6 +235,7 @@ namespace CompositeGUI
             this.startToolstrip.Name = "startToolstrip";
             this.startToolstrip.Size = new System.Drawing.Size(318, 26);
             this.startToolstrip.Text = "Запуск проектирования КМ";
+            this.startToolstrip.Click += new System.EventHandler(this.startToolstrip_Click);
             // 
             // оПрограммеToolStripMenuItem
             // 
@@ -242,7 +243,7 @@ namespace CompositeGUI
             this.помощьToolStripMenuItem,
             this.оПрограммеToolStripMenuItem1});
             this.оПрограммеToolStripMenuItem.Name = "оПрограммеToolStripMenuItem";
-            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(95, 26);
+            this.оПрограммеToolStripMenuItem.Size = new System.Drawing.Size(95, 24);
             this.оПрограммеToolStripMenuItem.Text = "Справка";
             // 
             // помощьToolStripMenuItem
@@ -263,9 +264,9 @@ namespace CompositeGUI
             this.mainPanel.AutoScroll = true;
             this.mainPanel.Controls.Add(this.resultsPanel);
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.mainPanel.Location = new System.Drawing.Point(0, 30);
+            this.mainPanel.Location = new System.Drawing.Point(0, 28);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1583, 655);
+            this.mainPanel.Size = new System.Drawing.Size(1583, 657);
             this.mainPanel.TabIndex = 7;
             this.mainPanel.Tag = "";
             // 
@@ -280,7 +281,7 @@ namespace CompositeGUI
             this.resultsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultsPanel.Location = new System.Drawing.Point(0, 0);
             this.resultsPanel.Name = "resultsPanel";
-            this.resultsPanel.Size = new System.Drawing.Size(1583, 655);
+            this.resultsPanel.Size = new System.Drawing.Size(1583, 657);
             this.resultsPanel.TabIndex = 7;
             // 
             // button1
@@ -354,6 +355,7 @@ namespace CompositeGUI
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Margin = new System.Windows.Forms.Padding(5);
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Синтез композитного материала";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.toolStrip1.ResumeLayout(false);

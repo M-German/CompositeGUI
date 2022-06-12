@@ -12,9 +12,12 @@ namespace CompositeGUI
 {
     public partial class NoProjectDataForm : Based
     {
-        public NoProjectDataForm()
+        MainForm.StartDelegate start;
+
+        public NoProjectDataForm(MainForm.StartDelegate sender)
         {
             InitializeComponent();
+            start = sender;
         }
 
         private void projectParamsButton_Click(object sender, EventArgs e)
@@ -33,6 +36,11 @@ namespace CompositeGUI
         {
             GeneticAlgorithmForm f = new GeneticAlgorithmForm();
             f.ShowDialog();
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
+            start();
         }
     }
 }

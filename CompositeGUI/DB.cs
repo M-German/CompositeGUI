@@ -33,6 +33,20 @@ namespace CompositeGUI
             }
         }
 
+        public static Project GetProject(int id)
+        {
+            using (DataContext db = new DataContext())
+            {
+                return db.Projects.Where(p => p.ProjectId == id)
+                    .Include(p => p.Composites)
+                    .Include(p => p.MatrixMaterial)
+                    .Include(p => p.FiberMaterial)
+                    .Include(p => p.Limits)
+                    .Include(p => p.GA_Settings)
+                    .FirstOrDefault();
+            }
+        }
+
         public static Project EditProject(Project project)
         {
             using (DataContext db = new DataContext())
@@ -45,6 +59,8 @@ namespace CompositeGUI
                 newP.MinFrequency = project.MinFrequency;
                 newP.MaxFrequency = project.MaxFrequency;
                 newP.HasMetalGrid = project.HasMetalGrid;
+                newP.LimitsId = project.LimitsId;
+                newP.GaSettingsId = project.GaSettingsId;
 
                 db.Entry(newP).State = EntityState.Modified;
                 db.SaveChanges();
@@ -101,6 +117,139 @@ namespace CompositeGUI
 
                 db.Materials.Attach(material);
                 db.Materials.Remove(material);
+                db.SaveChanges();
+            }
+        }
+
+        public static List<Limits> GetLimits()
+        {
+            using (DataContext db = new DataContext())
+            {
+                return db.Limits.ToList();
+            }
+        }
+
+        public static Limits AddLimits(Limits limits)
+        {
+            using (DataContext db = new DataContext())
+            {
+                Limits l = db.Limits.Add(limits);
+                db.SaveChanges();
+                return l;
+            }
+        }
+
+        public static Limits EditLimits(Limits limits)
+        {
+            using (DataContext db = new DataContext())
+            {
+                Limits newL = db.Limits.FirstOrDefault(l => l.LimitsId == limits.LimitsId);
+                newL.MinLayerCount = limits.MinLayerCount;
+                newL.MaxLayerCount = limits.MaxLayerCount;
+                newL.MinFiberWidth = limits.MinFiberWidth;
+                newL.MaxFiberWidth = limits.MaxFiberWidth;
+                newL.MinFiberThickness = limits.MinFiberThickness;
+                newL.MaxFiberThickness = limits.MaxFiberThickness;
+                newL.MinFiberSpaceBetween = limits.MinFiberSpaceBetween;
+                newL.MaxFiberSpaceBetween = limits.MaxFiberSpaceBetween;
+
+                db.Entry(newL).State = EntityState.Modified;
+                db.SaveChanges();
+                return newL;
+            }
+        }
+
+        public static void DeleteLimits(int id)
+        {
+            using (DataContext db = new DataContext())
+            {
+                Limits limits = new Limits() { LimitsId = id };
+                foreach (Project p in db.Projects.Where(p => p.LimitsId == id))
+                    p.LimitsId = null;
+
+                db.Limits.Attach(limits);
+                db.Limits.Remove(limits);
+                db.SaveChanges();
+            }
+        }
+
+        public static List<GA_Settings> GetGaSetings()
+        {
+            using (DataContext db = new DataContext())
+            {
+                return db.GA_Settings.ToList();
+            }
+        }
+
+        public static GA_Settings AddGaSetings(GA_Settings settings)
+        {
+            using (DataContext db = new DataContext())
+            {
+                GA_Settings s = db.GA_Settings.Add(settings);
+                db.SaveChanges();
+                return s;
+            }
+        }
+
+        public static GA_Settings EditGaSettings(GA_Settings settings)
+        {
+            using (DataContext db = new DataContext())
+            {
+                GA_Settings newS = db.GA_Settings.FirstOrDefault(l => l.GaSettingsId == settings.GaSettingsId);
+                newS.PopulationSize = settings.PopulationSize;
+                newS.MaxGenerations = settings.MaxGenerations;
+                newS.SelectionTourneySize = settings.SelectionTourneySize;
+
+                db.Entry(newS).State = EntityState.Modified;
+                db.SaveChanges();
+                return newS;
+            }
+        }
+
+        public static void DeleteGaSettings(int id)
+        {
+            using (DataContext db = new DataContext())
+            {
+                GA_Settings settings = new GA_Settings() { GaSettingsId = id };
+                foreach (Project p in db.Projects.Where(p => p.GaSettingsId == id))
+                    p.GaSettingsId = null;
+
+                db.GA_Settings.Attach(settings);
+                db.GA_Settings.Remove(settings);
+                db.SaveChanges();
+            }
+        }
+
+        public static void SaveComposites(List<Composite> composites)
+        {
+            using (DataContext db = new DataContext())
+            {
+                //int CompositeId;
+                //foreach (var c in composites)
+                //{
+                //    CompositeId = db.Composites.Add(new Composite()
+                //    {
+                //        FiberWidth = c.FiberWidth,
+                //        FiberThickness = c.FiberThickness,
+                //        FiberSpaceBetween = c.FiberSpaceBetween,
+                //        LayerCount = c.LayerCount,
+                //        ShieldingEfficiency = c.ShieldingEfficiency,
+                //        Generation = c.Generation,
+                //        //CstResults = c.CstResults
+                //    }).CompositeId;
+                //}
+                //Composite c = composites[0];
+                //db.Composites.Add(new Composite()
+                //{
+                //    FiberWidth = c.FiberWidth,
+                //    FiberThickness = c.FiberThickness,
+                //    FiberSpaceBetween = c.FiberSpaceBetween,
+                //    LayerCount = c.LayerCount,
+                //    ShieldingEfficiency = c.ShieldingEfficiency,
+                //    Generation = c.Generation,
+                //    CstResults = new List<CstResult>()
+                //});
+                db.Composites.AddRange(composites);
                 db.SaveChanges();
             }
         }

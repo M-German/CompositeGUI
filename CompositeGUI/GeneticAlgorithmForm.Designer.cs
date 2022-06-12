@@ -31,18 +31,18 @@ namespace CompositeGUI
         {
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.numericUpDown6 = new System.Windows.Forms.NumericUpDown();
+            this.tourneyUpDown = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
-            this.numericUpDown4 = new System.Windows.Forms.NumericUpDown();
+            this.generationsUpDown = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.populationUpDown = new System.Windows.Forms.NumericUpDown();
             this.layersLabel = new System.Windows.Forms.Label();
-            this.deleteLimits = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.label10 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.tourneyUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.generationsUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.populationUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // saveButton
@@ -67,23 +67,23 @@ namespace CompositeGUI
             this.cancelButton.UseVisualStyleBackColor = true;
             this.cancelButton.Click += new System.EventHandler(this.cancelButton_Click);
             // 
-            // numericUpDown6
+            // tourneyUpDown
             // 
-            this.numericUpDown6.Location = new System.Drawing.Point(346, 181);
-            this.numericUpDown6.Maximum = new decimal(new int[] {
+            this.tourneyUpDown.Location = new System.Drawing.Point(346, 181);
+            this.tourneyUpDown.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown6.Minimum = new decimal(new int[] {
+            this.tourneyUpDown.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown6.Name = "numericUpDown6";
-            this.numericUpDown6.Size = new System.Drawing.Size(73, 27);
-            this.numericUpDown6.TabIndex = 41;
-            this.numericUpDown6.Value = new decimal(new int[] {
+            this.tourneyUpDown.Name = "tourneyUpDown";
+            this.tourneyUpDown.Size = new System.Drawing.Size(73, 27);
+            this.tourneyUpDown.TabIndex = 41;
+            this.tourneyUpDown.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -99,23 +99,23 @@ namespace CompositeGUI
             this.label6.TabIndex = 40;
             this.label6.Text = "Размер турнира селекции:";
             // 
-            // numericUpDown4
+            // generationsUpDown
             // 
-            this.numericUpDown4.Location = new System.Drawing.Point(346, 136);
-            this.numericUpDown4.Maximum = new decimal(new int[] {
+            this.generationsUpDown.Location = new System.Drawing.Point(346, 136);
+            this.generationsUpDown.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown4.Minimum = new decimal(new int[] {
+            this.generationsUpDown.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
-            this.numericUpDown4.Name = "numericUpDown4";
-            this.numericUpDown4.Size = new System.Drawing.Size(73, 27);
-            this.numericUpDown4.TabIndex = 36;
-            this.numericUpDown4.Value = new decimal(new int[] {
+            this.generationsUpDown.Name = "generationsUpDown";
+            this.generationsUpDown.Size = new System.Drawing.Size(73, 27);
+            this.generationsUpDown.TabIndex = 36;
+            this.generationsUpDown.Value = new decimal(new int[] {
             1,
             0,
             0,
@@ -131,23 +131,23 @@ namespace CompositeGUI
             this.label3.TabIndex = 35;
             this.label3.Text = "Максимальное число поколений:";
             // 
-            // numericUpDown1
+            // populationUpDown
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(346, 89);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.populationUpDown.Location = new System.Drawing.Point(346, 89);
+            this.populationUpDown.Maximum = new decimal(new int[] {
             5,
             0,
             0,
             0});
-            this.numericUpDown1.Minimum = new decimal(new int[] {
+            this.populationUpDown.Minimum = new decimal(new int[] {
             2,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(73, 27);
-            this.numericUpDown1.TabIndex = 31;
-            this.numericUpDown1.Value = new decimal(new int[] {
+            this.populationUpDown.Name = "populationUpDown";
+            this.populationUpDown.Size = new System.Drawing.Size(73, 27);
+            this.populationUpDown.TabIndex = 31;
+            this.populationUpDown.Value = new decimal(new int[] {
             2,
             0,
             0,
@@ -163,14 +163,15 @@ namespace CompositeGUI
             this.layersLabel.TabIndex = 30;
             this.layersLabel.Text = "Размер популяции:";
             // 
-            // deleteLimits
+            // deleteButton
             // 
-            this.deleteLimits.Location = new System.Drawing.Point(388, 32);
-            this.deleteLimits.Name = "deleteLimits";
-            this.deleteLimits.Size = new System.Drawing.Size(31, 28);
-            this.deleteLimits.TabIndex = 50;
-            this.deleteLimits.Text = "X";
-            this.deleteLimits.UseVisualStyleBackColor = true;
+            this.deleteButton.Location = new System.Drawing.Point(388, 32);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(31, 28);
+            this.deleteButton.TabIndex = 50;
+            this.deleteButton.Text = "X";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
             // label10
             // 
@@ -193,30 +194,32 @@ namespace CompositeGUI
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(370, 28);
             this.comboBox1.TabIndex = 48;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // GeneticAlgorithmForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 336);
-            this.Controls.Add(this.deleteLimits);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.cancelButton);
-            this.Controls.Add(this.numericUpDown6);
+            this.Controls.Add(this.tourneyUpDown);
             this.Controls.Add(this.label6);
-            this.Controls.Add(this.numericUpDown4);
+            this.Controls.Add(this.generationsUpDown);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.populationUpDown);
             this.Controls.Add(this.layersLabel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "GeneticAlgorithmForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Параметры генетического алгоритма";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.Load += new System.EventHandler(this.GeneticAlgorithmForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.tourneyUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.generationsUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.populationUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -224,15 +227,15 @@ namespace CompositeGUI
 
         #endregion
 
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown populationUpDown;
         private System.Windows.Forms.Label layersLabel;
-        private System.Windows.Forms.NumericUpDown numericUpDown4;
+        private System.Windows.Forms.NumericUpDown generationsUpDown;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.NumericUpDown numericUpDown6;
+        private System.Windows.Forms.NumericUpDown tourneyUpDown;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
-        private System.Windows.Forms.Button deleteLimits;
+        private System.Windows.Forms.Button deleteButton;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.ComboBox comboBox1;
     }

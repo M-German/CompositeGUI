@@ -10,7 +10,6 @@
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "CompositeGUI.Data.DataContext";
         }
 
         protected override void Seed(CompositeGUI.Data.DataContext context)

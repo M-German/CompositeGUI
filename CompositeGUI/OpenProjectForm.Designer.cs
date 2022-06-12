@@ -101,7 +101,7 @@ namespace CompositeGUI
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Name = "OpenProjectForm";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Открыть проект";
             this.Load += new System.EventHandler(this.OpenProjectForm_Load);
             this.ResumeLayout(false);

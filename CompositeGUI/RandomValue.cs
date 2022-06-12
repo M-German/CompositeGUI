@@ -13,7 +13,7 @@ namespace CompositeGUI
             double minValue,
             double maxValue)
         {
-            return random.NextDouble() * (maxValue - minValue) + minValue;
+            return Math.Round(random.NextDouble() * (maxValue - minValue) + minValue, 3);
         }
 
         public static int RandomInt(
