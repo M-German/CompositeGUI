@@ -64,9 +64,9 @@ namespace CompositeGUI
                 });
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
-                //c.CstResults = cst.GetResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
+                c.CstResults = cst.GetResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
-                c.CstResults = cst.GetTestResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
+                //c.CstResults = cst.GetTestResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
 
                 if (c.CstResults.Count > 0)
                 {

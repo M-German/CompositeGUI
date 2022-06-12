@@ -198,7 +198,6 @@ namespace CompositeGUI
         }
 
         public List<CstResult> GetResults(
-            string FileName,
             Composite c,
             Material matrixMaterial,
             Material fiberMaterial,
