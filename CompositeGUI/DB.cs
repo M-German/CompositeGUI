@@ -29,7 +29,7 @@ namespace CompositeGUI
         {
             using (DataContext db = new DataContext())
             {
-                return db.Projects.ToList();
+                return db.Projects.OrderByDescending(p => p.ProjectId).ToList();
             }
         }
 
@@ -37,13 +37,16 @@ namespace CompositeGUI
         {
             using (DataContext db = new DataContext())
             {
-                return db.Projects.Where(p => p.ProjectId == id)
+                Project project = db.Projects.Where(p => p.ProjectId == id)
                     .Include(p => p.Composites)
                     .Include(p => p.MatrixMaterial)
                     .Include(p => p.FiberMaterial)
                     .Include(p => p.Limits)
                     .Include(p => p.GA_Settings)
                     .FirstOrDefault();
+
+                //project.Composites.OrderByDescending(c => c.ShieldingEfficiency);
+                return project;
             }
         }
 
@@ -229,11 +232,32 @@ namespace CompositeGUI
             }
         }
 
+        public static void DeleteProjectResults(int ProjectId)
+        {
+            using (DataContext db = new DataContext())
+            {
+                db.Composites.RemoveRange(db.Composites.Where(c => c.ProjectId == ProjectId));
+                db.SaveChanges();
+            }
+        }
+
         public static List<CstResult> GetCompositeResults(int CompositeId)
         {
             using (DataContext db = new DataContext())
             {
                 return db.CstResults.Where(r => r.CompositeId == CompositeId).ToList();
+            }
+        }
+
+        public static void DeleteProject(int id)
+        {
+            using (DataContext db = new DataContext())
+            {
+                Project p = new Project() { ProjectId = id };
+
+                db.Projects.Attach(p);
+                db.Projects.Remove(p);
+                db.SaveChanges();
             }
         }
     }

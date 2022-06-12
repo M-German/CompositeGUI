@@ -16,6 +16,7 @@ namespace CompositeGUI
         public double FiberSpaceBetween { get; set; }
         public double ShieldingEfficiency { get; set; }
         public int Generation { get; set; }
+        public int NumberInProject { get; set; }
 
 
         [Required]

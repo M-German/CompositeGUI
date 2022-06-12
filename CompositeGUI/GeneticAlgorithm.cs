@@ -32,19 +32,12 @@ namespace CompositeGUI
             for(int i=0; i < settings.PopulationSize; i++) { 
                 Composite c = new Composite();
                 c.ProjectId = projectId;
+                c.NumberInProject = i + 1;
                 c.Generation = currentGeneration;
                 c.LayerCount = RandomValue.RandomInt(rnd, limits.MinLayerCount, limits.MaxLayerCount);
                 c.FiberWidth = RandomValue.RandomDouble(rnd, limits.MinFiberWidth, limits.MaxFiberWidth);
                 c.FiberThickness = RandomValue.RandomDouble(rnd, limits.MinFiberThickness, limits.MaxFiberThickness);
                 c.FiberSpaceBetween = RandomValue.RandomDouble(rnd, limits.MinFiberSpaceBetween, limits.MaxFiberSpaceBetween);
-
-                c.ShieldingEfficiency = 33;
-                c.CstResults = new List<CstResult>()
-                {
-                    new CstResult() {Frequency = 0.1m, S21 = 33, SE = 40},
-                    new CstResult() {Frequency = 0.2m, S21 = 35, SE = 45},
-                    new CstResult() {Frequency = 0.3m, S21 = 39, SE = 36}
-                };
 
                 population.Add(c);
             }
@@ -60,6 +53,7 @@ namespace CompositeGUI
                 cst = new CST();
 
                 c.ProjectId = projectId;
+                c.NumberInProject = (i + 1) + settings.PopulationSize * (currentGeneration - 1);
                 c.Generation = currentGeneration;
 
                 UpdateStatus(new SimulationStatus()
@@ -69,7 +63,10 @@ namespace CompositeGUI
                     CurrentIndividualInGeneration = i + 1
                 });
 
-                c.CstResults = cst.GetResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
+                ////////////////////////////////////////////////////////////////////////////////////////////////////
+                //c.CstResults = cst.GetResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
+                ////////////////////////////////////////////////////////////////////////////////////////////////////
+                c.CstResults = cst.GetTestResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
 
                 if (c.CstResults.Count > 0)
                 {
@@ -210,8 +207,8 @@ namespace CompositeGUI
             while (currentGeneration <= settings.MaxGenerations)
             {
                 GetFitnessValues();
-                TourneySelection();
                 SaveCurrentPopulation();
+                TourneySelection();
                 if (currentGeneration + 1 <= settings.MaxGenerations) // если текущее поколение не последнее
                 {
                     Crossingover();
@@ -219,6 +216,12 @@ namespace CompositeGUI
                 }
                 currentGeneration++;
             }
+            UpdateStatus(new SimulationStatus()
+            {
+                InProcess = false,
+                CurrentGeneration = 1,
+                CurrentIndividualInGeneration = 1
+            });
         }
 
         public GeneticAlgorithm(Project p, UpdateStatusForThreadDelegate UpdateStatus)

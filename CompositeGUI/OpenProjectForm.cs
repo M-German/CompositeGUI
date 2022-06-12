@@ -12,6 +12,7 @@ namespace CompositeGUI
 {
     public partial class OpenProjectForm : Based
     {
+        List<Project> ProjectList;
         public OpenProjectForm()
         {
             InitializeComponent();
@@ -19,10 +20,11 @@ namespace CompositeGUI
 
         private void OpenProjectForm_Load(object sender, EventArgs e)
         {
+            ProjectList = DB.GetProjects();
             projectComboBox.Items.Clear();
-            if(Main.ProjectList.Count > 0)
+            if(ProjectList.Count > 0)
             {
-                foreach (var item in Main.ProjectList)
+                foreach (var item in ProjectList)
                 {
                     projectComboBox.Items.Add(item.Name);
                 }
@@ -45,7 +47,7 @@ namespace CompositeGUI
 
         private void selectButton_Click(object sender, EventArgs e)
         {
-            Main.CurrentProject = DB.GetProject(Main.ProjectList[projectComboBox.SelectedIndex].ProjectId);
+            Main.CurrentProject = DB.GetProject(ProjectList[projectComboBox.SelectedIndex].ProjectId);
             Close();
         }
 

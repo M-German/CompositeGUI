@@ -29,6 +29,9 @@ namespace CompositeGUI
         /// </summary>
         private void InitializeComponent()
         {
+            this.deleteButton = new System.Windows.Forms.Button();
+            this.label10 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.tourneyUpDown = new System.Windows.Forms.NumericUpDown();
@@ -37,13 +40,43 @@ namespace CompositeGUI
             this.label3 = new System.Windows.Forms.Label();
             this.populationUpDown = new System.Windows.Forms.NumericUpDown();
             this.layersLabel = new System.Windows.Forms.Label();
-            this.deleteButton = new System.Windows.Forms.Button();
-            this.label10 = new System.Windows.Forms.Label();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.tourneyUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.generationsUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.populationUpDown)).BeginInit();
             this.SuspendLayout();
+            // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(388, 32);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(31, 28);
+            this.deleteButton.TabIndex = 50;
+            this.deleteButton.Text = "X";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(12, 9);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(161, 20);
+            this.label10.TabIndex = 49;
+            this.label10.Text = "Выберите шаблон:";
+            // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Новый шаблон",
+            "Шаблон 1",
+            "Шаблон 2"});
+            this.comboBox1.Location = new System.Drawing.Point(12, 32);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(370, 28);
+            this.comboBox1.TabIndex = 48;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // saveButton
             // 
@@ -140,7 +173,7 @@ namespace CompositeGUI
             0,
             0});
             this.populationUpDown.Minimum = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -148,7 +181,7 @@ namespace CompositeGUI
             this.populationUpDown.Size = new System.Drawing.Size(73, 27);
             this.populationUpDown.TabIndex = 31;
             this.populationUpDown.Value = new decimal(new int[] {
-            2,
+            3,
             0,
             0,
             0});
@@ -162,39 +195,6 @@ namespace CompositeGUI
             this.layersLabel.Size = new System.Drawing.Size(189, 23);
             this.layersLabel.TabIndex = 30;
             this.layersLabel.Text = "Размер популяции:";
-            // 
-            // deleteButton
-            // 
-            this.deleteButton.Location = new System.Drawing.Point(388, 32);
-            this.deleteButton.Name = "deleteButton";
-            this.deleteButton.Size = new System.Drawing.Size(31, 28);
-            this.deleteButton.TabIndex = 50;
-            this.deleteButton.Text = "X";
-            this.deleteButton.UseVisualStyleBackColor = true;
-            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(12, 9);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(161, 20);
-            this.label10.TabIndex = 49;
-            this.label10.Text = "Выберите шаблон:";
-            // 
-            // comboBox1
-            // 
-            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
-            "Новый шаблон",
-            "Шаблон 1",
-            "Шаблон 2"});
-            this.comboBox1.Location = new System.Drawing.Point(12, 32);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(370, 28);
-            this.comboBox1.TabIndex = 48;
-            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // GeneticAlgorithmForm
             // 

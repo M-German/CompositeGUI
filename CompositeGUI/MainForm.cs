@@ -9,11 +9,13 @@ using System.Text;
 using System.Windows.Forms;
 using CompositeGUI.Data;
 using System.Threading;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace CompositeGUI
 {
     public partial class MainForm : Based
     {
+        bool in_process = false;
         bool showStructure = true;
         List<Composite> composites;
 
@@ -22,20 +24,14 @@ namespace CompositeGUI
         SimulationStatusForm statusForm;
 
         static string[] ColourValues = new string[] {
-            "d11141", "00b159", "00aedb", "f37735", "ffc425", "d9534f", "000000",
-            "5bc0de", "5cb85c", "428bca", "808000", "800080", "008080", "808080",
-            "C00000", "00C000", "0000C0", "C0C000", "C000C0", "00C0C0", "C0C0C0",
-            "400000", "004000", "000040", "404000", "400040", "004040", "404040",
-            "200000", "002000", "000020", "202000", "200020", "002020", "202020",
-            "600000", "006000", "000060", "606000", "600060", "006060", "606060",
-            "A00000", "00A000", "0000A0", "A0A000", "A000A0", "00A0A0", "A0A0A0",
-            "E00000", "00E000", "0000E0", "E0E000", "E000E0", "00E0E0", "E0E0E0",
+            "d11141", "00b159", "00aedb", "f37735", "ffc425", "d9534f", "ff0066",
+            "5bc0de", "5cb85c", "428bca", "ff6600", "ffff66", "00ff66", "66ffff"
         };
 
         string GetColor(int i)
         {
             if(i >= ColourValues.Length) {
-                i -= i / ColourValues.Length * i;
+                i -= i / ColourValues.Length * ColourValues.Length;
             }
             return "#"+ColourValues[i];
         }
@@ -43,30 +39,23 @@ namespace CompositeGUI
         public MainForm()
         {
             InitializeComponent();
-
-            //db = new DB();
         }
-
-
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            //resultComboBox.SelectedIndex = 0;
             UpdateMenuState();
             ShowSelectProjectForm();
             Main.ProjectList = DB.GetProjects();
             Main.ProjectChanged += ProjectChangedHandler;
-            Main.SimulationStatusChanged += ProjectChangedHandler;
-            //Main.SimulationStatusChanged += StatusChangedHandler;
-            //заглушка
-            //Main.CurrentProject = Main.ProjectList[0];
+            //Main.SimulationStatusChanged += ProjectChangedHandler;
+            Main.SimulationStatusChanged += StatusChangedHandler;
         }
 
         void ProjectChangedHandler()
         {
             if (Main.CurrentProject != null)
             {
-                if (Main.InProcess())
+                if (in_process)
                 {
                     ShowStatusForm();
                 }
@@ -92,30 +81,39 @@ namespace CompositeGUI
             UpdateMenuState();
         }
 
-        /*void StatusChangedHandler()
+        void StatusChangedHandler()
         {
-
-        }*/
+            if(Main.InProcess() != in_process)
+            {
+                if(in_process)
+                {
+                    in_process = Main.InProcess();
+                    Main.CurrentProject = DB.GetProject(Main.CurrentProject.ProjectId);
+                }
+                else
+                {
+                    in_process = Main.InProcess();
+                    ProjectChangedHandler();
+                }
+            }
+        }
 
         void UpdateMenuState()
         {
             if(Main.CurrentProject == null)
             {
-                toolStrip1.Visible = false;
                 menuStrip1.Items[0].Enabled = false;
                 menuStrip1.Items[1].Enabled = false;
                 menuStrip1.Items[2].Enabled = false;
             }
-            else if(Main.InProcess())
+            else if(in_process)
             {
-                toolStrip1.Visible = true;
                 menuStrip1.Items[0].Enabled = false;
                 menuStrip1.Items[1].Enabled = true;
                 menuStrip1.Items[2].Enabled = false;
             }
             else
             {
-                toolStrip1.Visible = true;
                 menuStrip1.Items[0].Enabled = true;
                 menuStrip1.Items[1].Enabled = true;
                 menuStrip1.Items[2].Enabled = true;
@@ -151,6 +149,9 @@ namespace CompositeGUI
         {
             if (ProjectConfigured())
             {
+                if (Main.CurrentProject.Composites.Count > 0) 
+                    DB.DeleteProjectResults(Main.CurrentProject.ProjectId);
+
                 Thread gaThread = new Thread(InitializeGeneticAlgorithm);
                 gaThread.Name = "GA Thread";
                 gaThread.IsBackground = true;
@@ -265,7 +266,7 @@ namespace CompositeGUI
             resultComboBox.Items.Add("Все композиты");
             foreach(var c in composites)
             {
-                resultComboBox.Items.Add($"Композит {c.CompositeId}");
+                resultComboBox.Items.Add($"Композит {c.NumberInProject}");
             }
             resultComboBox.SelectedIndex = 0;
         }
@@ -273,7 +274,7 @@ namespace CompositeGUI
         void FillComposite(int row, Composite c)
         {
             resultsDataGridView.Rows.Add();
-            resultsDataGridView.Rows[row].Cells[0].Value = c.CompositeId;
+            resultsDataGridView.Rows[row].Cells[0].Value = c.NumberInProject;
             resultsDataGridView.Rows[row].Cells[1].Value = c.FiberWidth;
             resultsDataGridView.Rows[row].Cells[2].Value = c.FiberThickness;
             resultsDataGridView.Rows[row].Cells[3].Value = c.FiberSpaceBetween;
@@ -284,7 +285,7 @@ namespace CompositeGUI
 
         void FillCstResults(int col, Composite c)
         {
-            resultsDataGridView.Columns.Add($"Column{col + 1}", $"SE{c.CompositeId}");
+            resultsDataGridView.Columns.Add($"Column{col + 1}", $"SE{c.NumberInProject}");
             List<CstResult> cstResults = c.CstResults.ToList();
 
             // костыль на создание строк
@@ -339,30 +340,50 @@ namespace CompositeGUI
 
         void FillChart()
         {
+            double Xmin = 999999, Xmax = -999999, Ymin = 999999, Ymax = -999999;
             chart1.Series.Clear();
+            chart1.Legends.Clear();
             Composite c;
             if (showStructure)
             {
                 chart1.Series.Add("SE");
-                chart1.Legends.Clear();
-                chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+                chart1.Series[0].ChartType = SeriesChartType.Column;
                 for (int i = 0; i < composites.Count; i++)
                 {
                     c = composites[i];
-                    chart1.Series[0].Points.AddXY($"SE{c.CompositeId}", c.ShieldingEfficiency);
+                    Xmin = Math.Min((double)c.NumberInProject, Xmin);
+                    Xmax = Math.Max((double)c.NumberInProject, Xmax);
+                    Ymin = Math.Min((double)c.ShieldingEfficiency, Ymin);
+                    Ymax = Math.Max((double)c.ShieldingEfficiency, Ymax);
+                    chart1.Series[0].Points.AddXY(c.NumberInProject, c.ShieldingEfficiency);
                     chart1.Series[0].Points[i].Color = ColorTranslator.FromHtml(GetColor(i));
                 }
+                chart1.ChartAreas[0].AxisX.Minimum = 0;
+                chart1.ChartAreas[0].AxisX.Maximum = Xmax+1;
+                chart1.ChartAreas[0].AxisY.Minimum = 0;
+                chart1.ChartAreas[0].AxisY.Maximum = Ymax + 1;
+
+                chart1.ChartAreas[0].AxisX.Interval = 1;
+                chart1.ChartAreas[0].AxisY.Interval = GetInterval(Ymin, Ymax);
+
+                chart1.ChartAreas[0].AxisX.Title = "Номер композита";
+                chart1.ChartAreas[0].AxisY.Title = "SE (дБ)";
             }
             else
             {
-                double Xmin = 999999, Xmax = -999999, Ymin = 999999, Ymax = -999999;
+                string name;
                 if(resultComboBox.SelectedIndex == 0)
                 {
                     for (int i = 0; i < composites.Count; i++)
                     {
                         c = composites[i];
-                        chart1.Series.Add("SE" + c.CompositeId);
-                        chart1.Series[i].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+                        name = "SE" + c.NumberInProject;
+                        chart1.Series.Add(name);
+                        chart1.Legends.Add(new Legend(name));
+                        chart1.Legends[name].DockedToChartArea = chart1.ChartAreas[0].Name;
+                        chart1.Series[i].Legend = name;
+                        chart1.Series[i].IsVisibleInLegend = true;
+                        chart1.Series[i].ChartType = SeriesChartType.Spline;
                         foreach (var r in c.CstResults)
                         {
                             Xmin = Math.Min((double)r.Frequency, Xmin);
@@ -376,8 +397,13 @@ namespace CompositeGUI
                 else
                 {
                     c = composites[resultComboBox.SelectedIndex - 1];
-                    chart1.Series.Add("SE" + c.CompositeId);
-                    chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+                    name = "SE" + c.NumberInProject;
+                    chart1.Series.Add(name);
+                    chart1.Legends.Add(new Legend(name));
+                    chart1.Legends[name].DockedToChartArea = chart1.ChartAreas[0].Name;
+                    chart1.Series[0].Legend = name;
+                    chart1.Series[0].IsVisibleInLegend = true;
+                    chart1.Series[0].ChartType = SeriesChartType.Spline;
                     foreach (var r in c.CstResults)
                     {
                         Xmin = Math.Min((double)r.Frequency, Xmin);
@@ -389,10 +415,34 @@ namespace CompositeGUI
                 }
                 chart1.ChartAreas[0].AxisX.Minimum = Xmin;
                 chart1.ChartAreas[0].AxisX.Maximum = Xmax;
-
-                chart1.ChartAreas[0].AxisY.Minimum = Ymin;
+                chart1.ChartAreas[0].AxisY.Minimum = Ymin - 1;
                 chart1.ChartAreas[0].AxisY.Maximum = Ymax + 1;
+
+                chart1.ChartAreas[0].AxisX.Interval = GetInterval(Xmin, Xmax); ;
+                chart1.ChartAreas[0].AxisY.Interval = GetInterval(Ymin, Ymax);
+
+                chart1.ChartAreas[0].AxisX.Title = "Частота (ГГц)";
+                chart1.ChartAreas[0].AxisY.Title = "SE (дБ)";
             }
+        }
+
+        double GetInterval(double min, double max)
+        {
+            /*if (min == max)
+            {
+                if (min == 0) return 1;
+                return Math.Round((max) / 5, 1);
+            }
+            return Math.Round((max - min) / 5, 1);*/
+            double i = (max != min ? max - min : max) * 0.25;
+            if (i >= 25) return 25;
+            if (i >= 10) return 10;
+            if (i >= 5) return 5;
+            if (i >= 1) return 1;
+            if (i >= 0.5) return 0.5;
+            if (i >= 0.1) return 0.1;
+            if (i >= 0.05) return 0.05;
+            return 0.01;
         }
 
         private void ProjectConfigError()
@@ -496,12 +546,20 @@ namespace CompositeGUI
 
         private void удалитьПроектToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show(
+            if (Main.CurrentProject == null) return;
+            DialogResult res = MessageBox.Show(
                 "Вы действительно хотите этот удалить проект?",
                 "Предупреждение",  
                 MessageBoxButtons.YesNo, 
                 MessageBoxIcon.Warning
             );
+
+            if(res == DialogResult.Yes)
+            {
+                int id = Main.CurrentProject.ProjectId;
+                DB.DeleteProject(id);
+                Main.CurrentProject = null;
+            }
         }
 
         private void startToolstrip_Click(object sender, EventArgs e)

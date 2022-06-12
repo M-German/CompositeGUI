@@ -29,14 +29,9 @@ namespace CompositeGUI
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
-            this.NewProjectButton = new System.Windows.Forms.ToolStripButton();
-            this.OpenProjectButton = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.проектToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.сохранитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -61,65 +56,12 @@ namespace CompositeGUI
             this.resultsDataGridView = new System.Windows.Forms.DataGridView();
             this.resultComboBox = new System.Windows.Forms.ComboBox();
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.toolStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.mainPanel.SuspendLayout();
             this.resultsPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.resultsDataGridView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
-            // 
-            // toolStrip1
-            // 
-            this.toolStrip1.BackColor = System.Drawing.SystemColors.Control;
-            this.toolStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.NewProjectButton,
-            this.OpenProjectButton,
-            this.toolStripButton1,
-            this.toolStripButton4});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-            this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1731, 27);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
-            // 
-            // NewProjectButton
-            // 
-            this.NewProjectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.NewProjectButton.Image = global::CompositeGUI.Properties.Resources.new_file;
-            this.NewProjectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.NewProjectButton.Name = "NewProjectButton";
-            this.NewProjectButton.Size = new System.Drawing.Size(29, 24);
-            this.NewProjectButton.Text = "toolStripButton2";
-            this.NewProjectButton.Click += new System.EventHandler(this.NewProjectButton_Click);
-            // 
-            // OpenProjectButton
-            // 
-            this.OpenProjectButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.OpenProjectButton.Image = global::CompositeGUI.Properties.Resources.open_file;
-            this.OpenProjectButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.OpenProjectButton.Name = "OpenProjectButton";
-            this.OpenProjectButton.Size = new System.Drawing.Size(29, 24);
-            this.OpenProjectButton.Text = "toolStripButton3";
-            // 
-            // toolStripButton1
-            // 
-            this.toolStripButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(29, 24);
-            this.toolStripButton1.Text = "toolStripButton1";
-            // 
-            // toolStripButton4
-            // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(29, 24);
-            this.toolStripButton4.Text = "toolStripButton4";
             // 
             // menuStrip1
             // 
@@ -275,7 +217,6 @@ namespace CompositeGUI
             this.resultsPanel.Controls.Add(this.button1);
             this.resultsPanel.Controls.Add(this.label1);
             this.resultsPanel.Controls.Add(this.resultsDataGridView);
-            this.resultsPanel.Controls.Add(this.toolStrip1);
             this.resultsPanel.Controls.Add(this.resultComboBox);
             this.resultsPanel.Controls.Add(this.chart1);
             this.resultsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -353,8 +294,6 @@ namespace CompositeGUI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Синтез композитного материала";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.toolStrip1.ResumeLayout(false);
-            this.toolStrip1.PerformLayout();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.mainPanel.ResumeLayout(false);
@@ -385,12 +324,7 @@ namespace CompositeGUI
         private System.Windows.Forms.ToolStripMenuItem startToolstrip;
         private System.Windows.Forms.ToolStripMenuItem помощьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem1;
-        private System.Windows.Forms.ToolStrip toolStrip1;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
         private System.Windows.Forms.Panel mainPanel;
-        private System.Windows.Forms.ToolStripButton NewProjectButton;
-        private System.Windows.Forms.ToolStripButton OpenProjectButton;
         private System.Windows.Forms.ComboBox resultComboBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;

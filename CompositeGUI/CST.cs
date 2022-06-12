@@ -53,7 +53,7 @@ namespace CompositeGUI
 
         private DialogResult FileOpenError(Exception ex, string filepath)
         {
-            MessageBox.Show(ex.Message);
+            //MessageBox.Show(ex.Message);
             return MessageBox.Show(
                 $"Ошибка открытия файла по пути: {filepath}",
                 "Ошибка",
@@ -133,7 +133,7 @@ namespace CompositeGUI
                                 else if(res.S21 == null) res.S21 = DecimalParse(valueStr);
                             }
                         }
-                        res.SE = (decimal)(20 * Math.Log10(Math.Abs((double)res.S21)));
+                        res.SE = (decimal)Math.Round((20 * Math.Log10(Math.Abs((double)res.S21))), 3);
                         results.Add(res);
                     }
                     i++;
@@ -198,6 +198,7 @@ namespace CompositeGUI
         }
 
         public List<CstResult> GetResults(
+            string FileName,
             Composite c,
             Material matrixMaterial,
             Material fiberMaterial,
@@ -218,7 +219,7 @@ namespace CompositeGUI
 
         private string ExportToFile()
         {
-            string FileName = $"cid{c.CompositeId}_S21.txt";
+            string FileName = $"proj{c.ProjectId}_gen{c.Generation}_ind{c.NumberInProject}_S21.txt";
             InvokeCST(cstDocument, "SelectTreeItem", @"1D Results\S-Parameters\S2,1");
             object ASCIIExport = InvokeCST(cstDocument, "ASCIIExport");
             InvokeCST(ASCIIExport, "Reset");
@@ -226,7 +227,7 @@ namespace CompositeGUI
             InvokeCST(ASCIIExport, "Mode", "FixedNumber");
             InvokeCST(ASCIIExport, "Step", "1001");
             InvokeCST(ASCIIExport, "Execute");
-            Thread.Sleep(1000);
+            Thread.Sleep(3000);
 
             return FileName;
         }
@@ -255,8 +256,8 @@ namespace CompositeGUI
                 int grid_repetitions = ((int)(fiber_length / (grid_width + space_between_grid))) - 1;
                 double ports_distance = 20;
                 double ports_size_diff = 0;
-                string bound_x = "expanded open";
-                string bound_y = "expanded open";
+                string bound_x = "open";
+                string bound_y = "open";
                 string bound_z = "expanded open";
 
                 cstDocument = InvokeCST(cstApp, "NewMWS");
@@ -788,6 +789,38 @@ namespace CompositeGUI
                     }
                 }
             }
+        }
+
+        public List<CstResult> GetTestResults(
+            Composite c,
+            Material matrixMaterial,
+            Material fiberMaterial,
+            bool with_grid,
+            (double, double) frequency)
+        {
+            Thread.Sleep(500);
+            return new List<CstResult>()
+            {
+                new CstResult() {Frequency = 0.1m, SE = 33},
+                new CstResult() {Frequency = 0.2m, SE = 40},
+                new CstResult() {Frequency = 0.3m, SE = 45},
+                new CstResult() {Frequency = 0.4m, SE = 44},
+                new CstResult() {Frequency = 0.5m, SE = 36},
+                new CstResult() {Frequency = 0.6m, SE = 29},
+                new CstResult() {Frequency = 0.7m, SE = 51},
+                new CstResult() {Frequency = 0.8m, SE = 60},
+                new CstResult() {Frequency = 0.9m, SE = 48},
+                new CstResult() {Frequency = 1m, SE = 31},
+                new CstResult() {Frequency = 1.1m, SE = 37},
+                new CstResult() {Frequency = 1.2m, SE = 42},
+                new CstResult() {Frequency = 1.3m, SE = 46},
+                new CstResult() {Frequency = 1.4m, SE = 52},
+                new CstResult() {Frequency = 1.5m, SE = 60},
+                new CstResult() {Frequency = 1.6m, SE = 61},
+                new CstResult() {Frequency = 1.7m, SE = 59},
+                new CstResult() {Frequency = 1.8m, SE = 58},
+                new CstResult() {Frequency = 1.9m, SE = 64},
+            };
         }
     }
 }
