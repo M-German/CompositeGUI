@@ -224,33 +224,16 @@ namespace CompositeGUI
         {
             using (DataContext db = new DataContext())
             {
-                //int CompositeId;
-                //foreach (var c in composites)
-                //{
-                //    CompositeId = db.Composites.Add(new Composite()
-                //    {
-                //        FiberWidth = c.FiberWidth,
-                //        FiberThickness = c.FiberThickness,
-                //        FiberSpaceBetween = c.FiberSpaceBetween,
-                //        LayerCount = c.LayerCount,
-                //        ShieldingEfficiency = c.ShieldingEfficiency,
-                //        Generation = c.Generation,
-                //        //CstResults = c.CstResults
-                //    }).CompositeId;
-                //}
-                //Composite c = composites[0];
-                //db.Composites.Add(new Composite()
-                //{
-                //    FiberWidth = c.FiberWidth,
-                //    FiberThickness = c.FiberThickness,
-                //    FiberSpaceBetween = c.FiberSpaceBetween,
-                //    LayerCount = c.LayerCount,
-                //    ShieldingEfficiency = c.ShieldingEfficiency,
-                //    Generation = c.Generation,
-                //    CstResults = new List<CstResult>()
-                //});
                 db.Composites.AddRange(composites);
                 db.SaveChanges();
+            }
+        }
+
+        public static List<CstResult> GetCompositeResults(int CompositeId)
+        {
+            using (DataContext db = new DataContext())
+            {
+                return db.CstResults.Where(r => r.CompositeId == CompositeId).ToList();
             }
         }
     }

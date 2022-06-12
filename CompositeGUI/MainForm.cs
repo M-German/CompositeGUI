@@ -6,7 +6,6 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using CompositeGUI.Data;
 using System.Threading;
@@ -15,69 +14,53 @@ namespace CompositeGUI
 {
     public partial class MainForm : Based
     {
-        bool showStructure = false;
-
-        List<List<double>> propData;
-        List<Composite> propDataStructre;
+        bool showStructure = true;
+        List<Composite> composites;
 
         NoProjectDataForm noDataForm;
         NoSelectedProjectForm noProjectForm;
         SimulationStatusForm statusForm;
+
+        static string[] ColourValues = new string[] {
+            "d11141", "00b159", "00aedb", "f37735", "ffc425", "d9534f", "000000",
+            "5bc0de", "5cb85c", "428bca", "808000", "800080", "008080", "808080",
+            "C00000", "00C000", "0000C0", "C0C000", "C000C0", "00C0C0", "C0C0C0",
+            "400000", "004000", "000040", "404000", "400040", "004040", "404040",
+            "200000", "002000", "000020", "202000", "200020", "002020", "202020",
+            "600000", "006000", "000060", "606000", "600060", "006060", "606060",
+            "A00000", "00A000", "0000A0", "A0A000", "A000A0", "00A0A0", "A0A0A0",
+            "E00000", "00E000", "0000E0", "E0E000", "E000E0", "00E0E0", "E0E0E0",
+        };
+
+        string GetColor(int i)
+        {
+            if(i >= ColourValues.Length) {
+                i -= i / ColourValues.Length * i;
+            }
+            return "#"+ColourValues[i];
+        }
 
         public MainForm()
         {
             InitializeComponent();
 
             //db = new DB();
-
-            propData = new List<List<double>>()
-            {
-                new List<double>() { 0.1, 35.65341942, 35.20124463, 35.43246019 },
-                new List<double>() { 0.11, 35.52501895, 35.06567688, 35.29958923 },
-                new List<double>() { 0.12, 35.40444732, 34.9382407, 35.17458749 },
-                new List<double>() { 0.13, 35.29030919, 34.81747912, 35.05602615 },
-                new List<double>() { 0.14, 35.1814952, 34.7022314, 34.94276714 },
-                new List<double>() { 0.15, 35.07710187, 34.59155173, 34.83388319 },
-                new List<double>() { 0.16, 34.97637879, 34.48465335, 34.7286013 },
-                new List<double>() { 0.17, 34.87869171, 34.3808696, 34.62626841 },
-                new List<double>() { 0.18, 34.7834978, 34.27962994, 34.52632373 },
-                new List<double>() { 0.19, 34.690327, 34.18043921, 34.42828145 },
-                new List<double>() { 0.2, 34.59876817, 34.08286305, 34.33171452 },
-                new List<double>() { 0.21, 34.50845977, 33.98651994, 34.2362478 },
-                new List<double>() { 0.22, 34.41908092, 33.89106933, 34.14154796 },
-                new List<double>() { 0.23, 34.33034772, 33.79621007, 34.0473193 },
-                new List<double>() { 0.24, 34.24200701, 33.70167365, 33.9532989 },
-                new List<double>() { 0.25, 34.15383421, 33.60722035, 33.85925349 },
-                new List<double>() { 0.26, 34.06563062, 33.51263879, 33.76497694 },
-                new List<double>() { 0.27, 33.9772207, 33.41774025, 33.67028766 },
-                new List<double>() { 0.28, 33.88845057, 33.32236042, 33.57502739 },
-                new List<double>() { 0.29, 33.79918508, 33.22635297, 33.47905859 },
-                new List<double>() { 0.3, 33.70930879, 33.12959258, 33.3822634 }
-            };
-
-            propDataStructre = new List<Composite>()
-            {
-                new Composite(3, 7.64, 7.75, 1.61),
-                new Composite(3, 7.68, 7.64, 1.66),
-                new Composite(3, 7.91, 7.67, 1.84),
-            };
         }
 
 
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            resultComboBox.SelectedIndex = 0;
+            //resultComboBox.SelectedIndex = 0;
             UpdateMenuState();
             ShowSelectProjectForm();
             Main.ProjectList = DB.GetProjects();
             Main.ProjectChanged += ProjectChangedHandler;
             Main.SimulationStatusChanged += ProjectChangedHandler;
-
+            //Main.SimulationStatusChanged += StatusChangedHandler;
             //заглушка
             //Main.CurrentProject = Main.ProjectList[0];
         }
-
 
         void ProjectChangedHandler()
         {
@@ -93,6 +76,12 @@ namespace CompositeGUI
                 }
                 else
                 {
+                    composites = Main.CurrentProject.Composites.ToList();
+                    foreach(var c in composites)
+                    {
+                        c.CstResults = DB.GetCompositeResults(c.CompositeId);
+                    }
+                    FillResultsCombobox();
                     ShowResultsForm();
                 }
             }
@@ -102,6 +91,11 @@ namespace CompositeGUI
             }
             UpdateMenuState();
         }
+
+        /*void StatusChangedHandler()
+        {
+
+        }*/
 
         void UpdateMenuState()
         {
@@ -265,14 +259,45 @@ namespace CompositeGUI
             resultsPanel.Visible = true;
         }
 
-        void FillComposite(int i)
+        void FillResultsCombobox()
         {
-            int index = this.resultsDataGridView.Columns.Count;
-            resultsDataGridView.Columns.Add("Column" + (i + 2), "Композит " + (i + 1));
-            this.resultsDataGridView.Rows[0].Cells[index].Value = propDataStructre[i].FiberWidth;
-            this.resultsDataGridView.Rows[1].Cells[index].Value = propDataStructre[i].FiberThickness;
-            this.resultsDataGridView.Rows[2].Cells[index].Value = propDataStructre[i].FiberSpaceBetween;
-            this.resultsDataGridView.Rows[3].Cells[index].Value = Convert.ToDouble(propDataStructre[i].LayerCount);
+            resultComboBox.Items.Clear();
+            resultComboBox.Items.Add("Все композиты");
+            foreach(var c in composites)
+            {
+                resultComboBox.Items.Add($"Композит {c.CompositeId}");
+            }
+            resultComboBox.SelectedIndex = 0;
+        }
+
+        void FillComposite(int row, Composite c)
+        {
+            resultsDataGridView.Rows.Add();
+            resultsDataGridView.Rows[row].Cells[0].Value = c.CompositeId;
+            resultsDataGridView.Rows[row].Cells[1].Value = c.FiberWidth;
+            resultsDataGridView.Rows[row].Cells[2].Value = c.FiberThickness;
+            resultsDataGridView.Rows[row].Cells[3].Value = c.FiberSpaceBetween;
+            resultsDataGridView.Rows[row].Cells[4].Value = c.LayerCount;
+            resultsDataGridView.Rows[row].Cells[5].Value = c.ShieldingEfficiency;
+            resultsDataGridView.Rows[row].Cells[6].Value = c.Generation;
+        }
+
+        void FillCstResults(int col, Composite c)
+        {
+            resultsDataGridView.Columns.Add($"Column{col + 1}", $"SE{c.CompositeId}");
+            List<CstResult> cstResults = c.CstResults.ToList();
+
+            // костыль на создание строк
+            if(cstResults.Count > resultsDataGridView.Rows.Count)
+            {
+                resultsDataGridView.Rows.Add(c.CstResults.Count - resultsDataGridView.Rows.Count);
+            }
+
+            for (int rIndex = 0; rIndex < cstResults.Count; rIndex++)
+            {
+                resultsDataGridView.Rows[rIndex].Cells[0].Value = cstResults[rIndex].Frequency;
+                resultsDataGridView.Rows[rIndex].Cells[col + 1].Value = cstResults[rIndex].SE;
+            }
         }
 
         void FillDataGridView()
@@ -280,66 +305,94 @@ namespace CompositeGUI
             resultsDataGridView.Rows.Clear();
             resultsDataGridView.Columns.Clear();
 
-            if (!showStructure)
+            if (showStructure)
             {
-                resultsDataGridView.Columns.Add("Column1", "f (ГГц)");
-                if (resultComboBox.SelectedIndex == 1)
-                {
-                    resultsDataGridView.Columns.Add("Column2", "SE1");
-                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[1]);
-                }
-                else if (resultComboBox.SelectedIndex == 2)
-                {
-                    resultsDataGridView.Columns.Add("Column2", "SE2");
-                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[2]);
-                }
-                else if (resultComboBox.SelectedIndex == 3)
-                {
-                    resultsDataGridView.Columns.Add("Column2", "SE3");
-                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[3]);
-                }
-                else
-                {
-                    resultsDataGridView.Columns.Add("Column2", "SE1");
-                    resultsDataGridView.Columns.Add("Column3", "SE2");
-                    resultsDataGridView.Columns.Add("Column4", "SE3");
-                    foreach (var row in propData) this.resultsDataGridView.Rows.Add(row[0], row[1], row[2], row[3]);
-                }
-            }
-            else
-            {
-                resultsDataGridView.Columns.Add("Column1", "");
-                resultsDataGridView.Rows.Add(4);
-                this.resultsDataGridView.Rows[0].Cells[0].Value = "Ширина волокна";
-                this.resultsDataGridView.Rows[1].Cells[0].Value = "Толщина волокна";
-                this.resultsDataGridView.Rows[2].Cells[0].Value = "Расстояние между";
-                this.resultsDataGridView.Rows[3].Cells[0].Value = "Количество слоев";
+                resultsDataGridView.Columns.Add("Column0", "Композит");
+                resultsDataGridView.Columns.Add("Column1", "Ширина волокна");
+                resultsDataGridView.Columns.Add("Column2", "Толщина волокна");
+                resultsDataGridView.Columns.Add("Column3", "Расстояние между");
+                resultsDataGridView.Columns.Add("Column4", "Количество слоев");
+                resultsDataGridView.Columns.Add("Column5", "SE");
+                resultsDataGridView.Columns.Add("Column6", "Поколение");
 
                 if (resultComboBox.SelectedIndex == 0)
                 {
-                    for (int i = 0; i < propDataStructre.Count; i++) FillComposite(i);
+                    for (int i = 0; i < composites.Count; i++) FillComposite(i, composites[i]);
                 }
-                else FillComposite(resultComboBox.SelectedIndex - 1);
+                else FillComposite(0, composites[resultComboBox.SelectedIndex - 1]);
+            }
+            else
+            {
+                resultsDataGridView.Columns.Add("Column0", "f (ГГц)");
+                if (resultComboBox.SelectedIndex == 0)
+                {
+                    for (int cIndex = 0; cIndex < composites.Count; cIndex++)
+                    {
+                        FillCstResults(cIndex, composites[cIndex]);
+                    }
+                }
+                else FillCstResults(0, composites[resultComboBox.SelectedIndex - 1]);
             }
 
-            this.resultsDataGridView.ClearSelection();
-        }
-
-        void DrawSpline(int i)
-        {
-            this.chart1.Series.Add("SE" + (i + 1));
-            int index = this.chart1.Series.Count - 1;
-            this.chart1.Series[index].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            foreach (var row in propData) this.chart1.Series[index].Points.AddXY(row[0], row[i + 1]);
+            resultsDataGridView.ClearSelection();
         }
 
         void FillChart()
         {
-            this.chart1.Series.Clear();
-            chart1.ChartAreas[0].AxisY.Minimum = 33;
-            if (resultComboBox.SelectedIndex == 0)
-                for (int i = 0; i < 3; i++) DrawSpline(i);
-            else DrawSpline(resultComboBox.SelectedIndex - 1);
+            chart1.Series.Clear();
+            Composite c;
+            if (showStructure)
+            {
+                chart1.Series.Add("SE");
+                chart1.Legends.Clear();
+                chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+                for (int i = 0; i < composites.Count; i++)
+                {
+                    c = composites[i];
+                    chart1.Series[0].Points.AddXY($"SE{c.CompositeId}", c.ShieldingEfficiency);
+                    chart1.Series[0].Points[i].Color = ColorTranslator.FromHtml(GetColor(i));
+                }
+            }
+            else
+            {
+                double Xmin = 999999, Xmax = -999999, Ymin = 999999, Ymax = -999999;
+                if(resultComboBox.SelectedIndex == 0)
+                {
+                    for (int i = 0; i < composites.Count; i++)
+                    {
+                        c = composites[i];
+                        chart1.Series.Add("SE" + c.CompositeId);
+                        chart1.Series[i].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+                        foreach (var r in c.CstResults)
+                        {
+                            Xmin = Math.Min((double)r.Frequency, Xmin);
+                            Xmax = Math.Max((double)r.Frequency, Xmax);
+                            Ymin = Math.Min((double)r.SE, Ymin);
+                            Ymax = Math.Max((double)r.SE, Ymax);
+                            chart1.Series[i].Points.AddXY(r.Frequency, r.SE);
+                        }
+                    }
+                }
+                else
+                {
+                    c = composites[resultComboBox.SelectedIndex - 1];
+                    chart1.Series.Add("SE" + c.CompositeId);
+                    chart1.Series[0].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+                    foreach (var r in c.CstResults)
+                    {
+                        Xmin = Math.Min((double)r.Frequency, Xmin);
+                        Xmax = Math.Max((double)r.Frequency, Xmax);
+                        Ymin = Math.Min((double)r.SE, Ymin);
+                        Ymax = Math.Max((double)r.SE, Ymax);
+                        chart1.Series[0].Points.AddXY(r.Frequency, r.SE);
+                    }
+                }
+                chart1.ChartAreas[0].AxisX.Minimum = Xmin;
+                chart1.ChartAreas[0].AxisX.Maximum = Xmax;
+
+                chart1.ChartAreas[0].AxisY.Minimum = Ymin;
+                chart1.ChartAreas[0].AxisY.Maximum = Ymax + 1;
+            }
         }
 
         private void ProjectConfigError()
@@ -438,6 +491,7 @@ namespace CompositeGUI
             if (showStructure) button1.Text = "Покзать экранирование";
             else button1.Text = "Показать структуру";
             FillDataGridView();
+            FillChart();
         }
 
         private void удалитьПроектToolStripMenuItem_Click(object sender, EventArgs e)

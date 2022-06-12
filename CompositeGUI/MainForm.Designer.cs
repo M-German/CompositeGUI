@@ -80,7 +80,7 @@ namespace CompositeGUI
             this.toolStripButton4});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(1583, 27);
+            this.toolStrip1.Size = new System.Drawing.Size(1731, 27);
             this.toolStrip1.TabIndex = 1;
             this.toolStrip1.Text = "toolStrip1";
             // 
@@ -134,7 +134,7 @@ namespace CompositeGUI
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Padding = new System.Windows.Forms.Padding(9, 2, 0, 2);
-            this.menuStrip1.Size = new System.Drawing.Size(1583, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1731, 28);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -266,7 +266,7 @@ namespace CompositeGUI
             this.mainPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.mainPanel.Location = new System.Drawing.Point(0, 28);
             this.mainPanel.Name = "mainPanel";
-            this.mainPanel.Size = new System.Drawing.Size(1583, 657);
+            this.mainPanel.Size = new System.Drawing.Size(1731, 694);
             this.mainPanel.TabIndex = 7;
             this.mainPanel.Tag = "";
             // 
@@ -281,12 +281,12 @@ namespace CompositeGUI
             this.resultsPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.resultsPanel.Location = new System.Drawing.Point(0, 0);
             this.resultsPanel.Name = "resultsPanel";
-            this.resultsPanel.Size = new System.Drawing.Size(1583, 657);
+            this.resultsPanel.Size = new System.Drawing.Size(1731, 694);
             this.resultsPanel.TabIndex = 7;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(1313, 42);
+            this.button1.Location = new System.Drawing.Point(1461, 42);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(258, 28);
             this.button1.TabIndex = 5;
@@ -297,7 +297,7 @@ namespace CompositeGUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(958, 45);
+            this.label1.Location = new System.Drawing.Point(1106, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 20);
             this.label1.TabIndex = 3;
@@ -314,18 +314,13 @@ namespace CompositeGUI
             this.resultsDataGridView.ReadOnly = true;
             this.resultsDataGridView.RowHeadersWidth = 51;
             this.resultsDataGridView.RowTemplate.Height = 24;
-            this.resultsDataGridView.Size = new System.Drawing.Size(609, 560);
+            this.resultsDataGridView.Size = new System.Drawing.Size(757, 603);
             this.resultsDataGridView.TabIndex = 0;
             // 
             // resultComboBox
             // 
             this.resultComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.resultComboBox.Items.AddRange(new object[] {
-            "Все композиты",
-            "Композит 1",
-            "Композит 2",
-            "Композит 3"});
-            this.resultComboBox.Location = new System.Drawing.Point(1096, 42);
+            this.resultComboBox.Location = new System.Drawing.Point(1244, 43);
             this.resultComboBox.Name = "resultComboBox";
             this.resultComboBox.Size = new System.Drawing.Size(211, 28);
             this.resultComboBox.TabIndex = 2;
@@ -339,7 +334,7 @@ namespace CompositeGUI
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 42);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(1000, 597);
+            this.chart1.Size = new System.Drawing.Size(956, 640);
             this.chart1.TabIndex = 4;
             this.chart1.Text = "chart1";
             // 
@@ -349,7 +344,7 @@ namespace CompositeGUI
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1583, 685);
+            this.ClientSize = new System.Drawing.Size(1731, 722);
             this.Controls.Add(this.mainPanel);
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
