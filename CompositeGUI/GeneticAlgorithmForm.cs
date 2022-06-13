@@ -21,6 +21,7 @@ namespace CompositeGUI
         }
         private void GeneticAlgorithmForm_Load(object sender, EventArgs e)
         {
+            saveButton.Enabled = !Main.InProcess();
             SelectedGaSettingsId = Main.CurrentProject.GaSettingsId;
             FillSettings();
         }

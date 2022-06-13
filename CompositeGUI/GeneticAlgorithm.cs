@@ -21,18 +21,22 @@ namespace CompositeGUI
         (double, double) frequency;
         double mutationProbability;
 
-        int currentGeneration = 1;
+        int currentGeneration = 1,
+            numberInProject = 1;
+        List<Composite> initialGeneration;
         (double, double) mutationRange = (-0.3, 0.3);
         List<Composite> population;
         Random rnd = new Random();
 
+        bool STOP = false;
+
         void GeneratePopulation()
         {
             population = new List<Composite>(settings.PopulationSize);
-            for(int i=0; i < settings.PopulationSize; i++) { 
+            for(int i=0; i < settings.PopulationSize; i++) {
                 Composite c = new Composite();
                 c.ProjectId = projectId;
-                c.NumberInProject = i + 1;
+                c.NumberInProject = ++numberInProject;
                 c.Generation = currentGeneration;
                 c.LayerCount = RandomValue.RandomInt(rnd, limits.MinLayerCount, limits.MaxLayerCount);
                 c.FiberWidth = RandomValue.RandomDouble(rnd, limits.MinFiberWidth, limits.MaxFiberWidth);
@@ -53,7 +57,7 @@ namespace CompositeGUI
                 cst = new CST();
 
                 c.ProjectId = projectId;
-                c.NumberInProject = (i + 1) + settings.PopulationSize * (currentGeneration - 1);
+                c.NumberInProject = ++numberInProject;
                 c.Generation = currentGeneration;
 
                 UpdateStatus(new SimulationStatus()
@@ -72,9 +76,13 @@ namespace CompositeGUI
                 {
                     decimal totalSE = 0;
                     foreach (var res in c.CstResults) totalSE += (decimal)res.SE;
-                    c.ShieldingEfficiency = (double)(totalSE / c.CstResults.Count);
+                    c.ShieldingEfficiency = Math.Round((double)(totalSE / c.CstResults.Count), 3);
                 }
-                else c.ShieldingEfficiency = 0;
+                else
+                {
+                    //STOP = true;
+                    c.ShieldingEfficiency = 0;
+                }
             }
         }
 
@@ -196,25 +204,39 @@ namespace CompositeGUI
 
         public void Start()
         {
-            currentGeneration = 1;
-            UpdateStatus(new SimulationStatus()
+            if(initialGeneration.Count > 0)
             {
-                InProcess = true,
-                CurrentGeneration = currentGeneration,
-                CurrentIndividualInGeneration = 1
-            });
-            GeneratePopulation();
-            while (currentGeneration <= settings.MaxGenerations)
+                currentGeneration = initialGeneration[0].Generation;
+                UpdateStatus(new SimulationStatus()
+                {
+                    InProcess = true,
+                    CurrentGeneration = currentGeneration,
+                    CurrentIndividualInGeneration = 1
+                });
+                population = initialGeneration;
+            }
+            else
             {
+                currentGeneration = 1;
+                UpdateStatus(new SimulationStatus()
+                {
+                    InProcess = true,
+                    CurrentGeneration = currentGeneration,
+                    CurrentIndividualInGeneration = 1
+                });
+                GeneratePopulation();
                 GetFitnessValues();
                 SaveCurrentPopulation();
-                TourneySelection();
-                if (currentGeneration + 1 <= settings.MaxGenerations) // если текущее поколение не последнее
-                {
-                    Crossingover();
-                    Mutation();
-                }
+            }
+
+            while (currentGeneration < settings.MaxGenerations && !STOP)
+            {
                 currentGeneration++;
+                TourneySelection();
+                Crossingover();
+                Mutation();
+                GetFitnessValues();
+                SaveCurrentPopulation();
             }
             UpdateStatus(new SimulationStatus()
             {
@@ -234,8 +256,15 @@ namespace CompositeGUI
             fiberMaterial = p.FiberMaterial;
             limits = p.Limits;
             frequency = (p.MinFrequency, p.MaxFrequency);
-
+            STOP = false;
             mutationProbability = 1 / (2 * settings.PopulationSize);
+
+            initialGeneration = p.Composites
+                .OrderByDescending(c => c.Generation)
+                .Take(settings.PopulationSize)
+                .ToList();
+
+            numberInProject = p.Composites.Count;
         }
     }
 }

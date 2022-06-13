@@ -54,7 +54,7 @@ namespace CompositeGUI
         {
             using (DataContext db = new DataContext())
             {
-                Project newP = db.Projects.FirstOrDefault(p => p.ProjectId == project.ProjectId);
+                Project newP = GetProject(project.ProjectId);
 
                 newP.Name = project.Name;
                 newP.FiberMaterialId = project.FiberMaterialId;

@@ -10,6 +10,8 @@ using System.Windows.Forms;
 using CompositeGUI.Data;
 using System.Threading;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.IO;
+using System.Globalization;
 
 namespace CompositeGUI
 {
@@ -17,6 +19,7 @@ namespace CompositeGUI
     {
         bool in_process = false;
         bool showStructure = true;
+        int pageSize = 10;
         List<Composite> composites;
 
         NoProjectDataForm noDataForm;
@@ -43,6 +46,7 @@ namespace CompositeGUI
 
         private void MainForm_Load(object sender, EventArgs e)
         {
+            topComboBox.SelectedIndex = 1;
             UpdateMenuState();
             ShowSelectProjectForm();
             Main.ProjectList = DB.GetProjects();
@@ -50,6 +54,7 @@ namespace CompositeGUI
             //Main.SimulationStatusChanged += ProjectChangedHandler;
             Main.SimulationStatusChanged += StatusChangedHandler;
         }
+
 
         void ProjectChangedHandler()
         {
@@ -65,7 +70,14 @@ namespace CompositeGUI
                 }
                 else
                 {
-                    composites = Main.CurrentProject.Composites.ToList();
+                    if(topComboBox.SelectedIndex != 0)
+                    {
+                        composites = Main.CurrentProject.Composites
+                            .OrderByDescending(c => c.ShieldingEfficiency)
+                            .Take(pageSize)
+                            .ToList();
+                    }
+                    else composites = Main.CurrentProject.Composites.ToList();
                     foreach(var c in composites)
                     {
                         c.CstResults = DB.GetCompositeResults(c.CompositeId);
@@ -149,10 +161,40 @@ namespace CompositeGUI
         {
             if (ProjectConfigured())
             {
-                if (Main.CurrentProject.Composites.Count > 0) 
-                    DB.DeleteProjectResults(Main.CurrentProject.ProjectId);
+                //List<Composite> initialGeneration = new List<Composite>();
+                Project currentProject = DB.GetProject(Main.CurrentProject.ProjectId);
+                if (currentProject.Composites.Count > 0)
+                {
+                    DialogResult cont = DialogResult.No;
+                    if (currentProject.Composites.Count >= currentProject.GA_Settings.PopulationSize)
+                    {
+                        cont = MessageBox.Show(
+                            "Хотите продолжить с последнего поколения? (При нажатии \"нет\" предыдущие результаты будут удалены)",
+                            "Внимание",
+                            MessageBoxButtons.YesNoCancel,
+                            MessageBoxIcon.Question,
+                            MessageBoxDefaultButton.Button1,
+                            MessageBoxOptions.DefaultDesktopOnly
+                         );
+                    }
+                    if (cont == DialogResult.No)
+                    {
+                        DB.DeleteProjectResults(currentProject.ProjectId);
+                        currentProject.Composites = new List<Composite>();
+                    }
+                }
+                
 
-                Thread gaThread = new Thread(InitializeGeneticAlgorithm);
+                Thread gaThread = new Thread(() =>
+                {
+                    UpdateStatusForThreadDelegate UpdateStatusDelegate = new UpdateStatusForThreadDelegate(UpdateStatusForThread);
+
+                    GeneticAlgorithm ga = new GeneticAlgorithm(
+                        currentProject,
+                        UpdateStatusDelegate
+                    );
+                    ga.Start();
+                });
                 gaThread.Name = "GA Thread";
                 gaThread.IsBackground = true;
                 gaThread.Start();
@@ -160,16 +202,10 @@ namespace CompositeGUI
             else ProjectConfigError();
         }
 
-        void InitializeGeneticAlgorithm()
+        /*void InitializeGeneticAlgorithm()
         {
-            UpdateStatusForThreadDelegate UpdateStatusDelegate = new UpdateStatusForThreadDelegate(UpdateStatusForThread);
-
-            GeneticAlgorithm ga = new GeneticAlgorithm(
-                DB.GetProject(Main.CurrentProject.ProjectId),
-                UpdateStatusDelegate
-            );
-            ga.Start();
-        }
+            
+        }*/
 
         public void UpdateStatusForThread(SimulationStatus status)
         {
@@ -297,7 +333,7 @@ namespace CompositeGUI
             for (int rIndex = 0; rIndex < cstResults.Count; rIndex++)
             {
                 resultsDataGridView.Rows[rIndex].Cells[0].Value = cstResults[rIndex].Frequency;
-                resultsDataGridView.Rows[rIndex].Cells[col + 1].Value = cstResults[rIndex].SE;
+                resultsDataGridView.Rows[rIndex].Cells[col + 1].Value = Math.Round((double)cstResults[rIndex].SE, 3);
             }
         }
 
@@ -356,13 +392,16 @@ namespace CompositeGUI
                     Ymin = Math.Min((double)c.ShieldingEfficiency, Ymin);
                     Ymax = Math.Max((double)c.ShieldingEfficiency, Ymax);
                     chart1.Series[0].Points.AddXY(c.NumberInProject, c.ShieldingEfficiency);
-                    chart1.Series[0].Points[i].Color = ColorTranslator.FromHtml(GetColor(i));
+                    chart1.Series[0].Points[i].Color = ColorTranslator.FromHtml(GetColor(c.NumberInProject));
                 }
+
+                // мин/макс по осям
                 chart1.ChartAreas[0].AxisX.Minimum = 0;
                 chart1.ChartAreas[0].AxisX.Maximum = Xmax+1;
-                chart1.ChartAreas[0].AxisY.Minimum = 0;
+                chart1.ChartAreas[0].AxisY.Minimum = Math.Floor(Ymin);
                 chart1.ChartAreas[0].AxisY.Maximum = Ymax + 1;
 
+                // цена деления
                 chart1.ChartAreas[0].AxisX.Interval = 1;
                 chart1.ChartAreas[0].AxisY.Interval = GetInterval(Ymin, Ymax);
 
@@ -410,14 +449,16 @@ namespace CompositeGUI
                         Xmax = Math.Max((double)r.Frequency, Xmax);
                         Ymin = Math.Min((double)r.SE, Ymin);
                         Ymax = Math.Max((double)r.SE, Ymax);
-                        chart1.Series[0].Points.AddXY(r.Frequency, r.SE);
+                        chart1.Series[0].Points.AddXY(r.Frequency, Math.Round((double)r.SE, 3));
                     }
                 }
+                // мин/макс по осям
                 chart1.ChartAreas[0].AxisX.Minimum = Xmin;
                 chart1.ChartAreas[0].AxisX.Maximum = Xmax;
                 chart1.ChartAreas[0].AxisY.Minimum = Ymin - 1;
                 chart1.ChartAreas[0].AxisY.Maximum = Ymax + 1;
 
+                // цена деления
                 chart1.ChartAreas[0].AxisX.Interval = GetInterval(Xmin, Xmax); ;
                 chart1.ChartAreas[0].AxisY.Interval = GetInterval(Ymin, Ymax);
 
@@ -434,7 +475,7 @@ namespace CompositeGUI
                 return Math.Round((max) / 5, 1);
             }
             return Math.Round((max - min) / 5, 1);*/
-            double i = (max != min ? max - min : max) * 0.25;
+            double i = (max != min ? max - min : max);// * 0.50;
             if (i >= 25) return 25;
             if (i >= 10) return 10;
             if (i >= 5) return 5;
@@ -565,6 +606,23 @@ namespace CompositeGUI
         private void startToolstrip_Click(object sender, EventArgs e)
         {
             Start();
+        }
+
+        private void topComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            int newPageSize;
+            switch(topComboBox.SelectedIndex)
+            {
+                case 1: newPageSize = 5; break;
+                case 2: newPageSize = 10; break;
+                case 3: newPageSize = 20; break;
+                default: newPageSize = 1000; break;
+            };
+            if(pageSize != newPageSize)
+            {
+                pageSize = newPageSize;
+                ProjectChangedHandler();
+            }
         }
     }
 }

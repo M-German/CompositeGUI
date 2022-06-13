@@ -55,7 +55,8 @@ namespace CompositeGUI
         {
             //MessageBox.Show(ex.Message);
             return MessageBox.Show(
-                $"Ошибка открытия файла по пути: {filepath}",
+                $"Ошибка открытия файла по пути: {filepath}\n" +
+                $"{ex.ToString()}",
                 "Ошибка",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Error,
@@ -101,46 +102,65 @@ namespace CompositeGUI
             return decimal.Round(val, 3, MidpointRounding.AwayFromZero);
         }
 
+        private bool IsDigit(char c)
+        {
+            return char.IsDigit(c) || c == '.' || c == '-';
+        }
+
         private List<CstResult> ReadExportFile(string fileName)
         {
+            string exportsFolder = Environment.CurrentDirectory + @"\CST_exports";
+            Thread.Sleep(2000);
             string filepath = $@"{exportsFolder}\{fileName}";
             string str, valueStr;
             StreamReader f = null;
             int i = 0;
-            bool prevNumber;
             List<CstResult> results = new List<CstResult>();
             try
             {
                 f = new StreamReader(filepath);
                 while ((str = f.ReadLine()) != null)
                 {
-                    if(i >= 2 && (i - 2) % 10 == 0) // с третьей строки, каждую 10-ю строку
+                    if (i >= 2) // && (i - 2) % 20 == 0 с третьей строки, каждую 20-ю строку
                     {
                         CstResult res = new CstResult();
-                        prevNumber = false;
                         valueStr = "";
-                        foreach (char c in str)
+                        for (int j = 0; j < str.Length - 1; j++)
                         {
-                            if (char.IsDigit(c) || c == '.' || c == '-')
+                            if (IsDigit(str[j]))
                             {
-                                prevNumber = true;
-                                valueStr += c;
-                            }
-                            else if(prevNumber)
-                            {
-                                prevNumber = false;
-                                if (res.Frequency == null) res.Frequency = DecimalParse(valueStr);
-                                else if(res.S21 == null) res.S21 = DecimalParse(valueStr);
+                                valueStr += str[j];
+                                if (!IsDigit(str[j + 1]) || j + 2 == str.Length)
+                                {
+                                    if (res.Frequency == null)
+                                    {
+                                        res.Frequency = DecimalParse(valueStr);
+                                        if(results.Count > 0)
+                                        {
+                                            if(Math.Abs((double)(res.Frequency - results[results.Count-1].Frequency)) < 0.01)
+                                            {
+                                                break; // если разница между значениями меньше 0,01 переходим к след. строке
+                                            }
+                                        }
+                                    }
+                                    else if (res.S21 == null) res.S21 = DecimalParse(valueStr);
+                                    valueStr = "";
+                                }
                             }
                         }
-                        res.SE = (decimal)Math.Round((20 * Math.Log10(Math.Abs((double)res.S21))), 3);
-                        results.Add(res);
+                        if(res.S21 != null)
+                        {
+                            res.SE = (decimal)Math.Round((20 * Math.Log10(Math.Abs((double)res.S21))), 3);
+                            results.Add(res);
+                        }
+                        res = new CstResult();
                     }
                     i++;
                 }
             }
             catch (Exception ex)
             {
+                //MessageBox.Show(ex.ToString());
                 FileOpenError(ex, filepath);
             }
             finally
@@ -194,7 +214,7 @@ namespace CompositeGUI
 
         string doubleVBA(double val)
         {
-            return val.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
+            return val.ToString("G", CultureInfo.InvariantCulture);
         }
 
         public List<CstResult> GetResults(
@@ -211,14 +231,18 @@ namespace CompositeGUI
             this.with_grid = with_grid;
             this.frequency = frequency;
 
-            Simulation();
+            try
+            {
+                Simulation();
+            }
+            catch{ return new List<CstResult>(); }
 
             return ReadExportFile(ExportToFile());
         }
 
         private string ExportToFile()
         {
-            string FileName = $"proj{c.ProjectId}_gen{c.Generation}_ind{c.NumberInProject}_S21.txt";
+            string FileName = $"proj{c.ProjectId}_gen{c.Generation}_i{c.NumberInProject}_S21_{DateTimeOffset.Now.ToUnixTimeMilliseconds()}.txt";
             InvokeCST(cstDocument, "SelectTreeItem", @"1D Results\S-Parameters\S2,1");
             object ASCIIExport = InvokeCST(cstDocument, "ASCIIExport");
             InvokeCST(ASCIIExport, "Reset");
@@ -226,7 +250,6 @@ namespace CompositeGUI
             InvokeCST(ASCIIExport, "Mode", "FixedNumber");
             InvokeCST(ASCIIExport, "Step", "1001");
             InvokeCST(ASCIIExport, "Execute");
-            Thread.Sleep(3000);
 
             return FileName;
         }
@@ -255,8 +278,8 @@ namespace CompositeGUI
                 int grid_repetitions = ((int)(fiber_length / (grid_width + space_between_grid))) - 1;
                 double ports_distance = 20;
                 double ports_size_diff = 0;
-                string bound_x = "open";
-                string bound_y = "open";
+                string bound_x = "open"; // должно быть просто open
+                string bound_y = "open"; // должно быть просто open
                 string bound_z = "expanded open";
 
                 cstDocument = InvokeCST(cstApp, "NewMWS");
@@ -761,7 +784,31 @@ namespace CompositeGUI
                 InvokeCST(Solver, "FullDeembedding", "False");
                 InvokeCST(Solver, "SuperimposePLWExcitation", "False");
                 InvokeCST(Solver, "UseSensitivityAnalysis", "False");
-                
+
+                object MeshSettings = InvokeCST(cstDocument, "MeshSettings");
+                InvokeCST(MeshSettings, "SetMeshType", "Hex");
+                //CstInvoke(MeshSettings, "SetMeshTypeSet", "Version", 1%);
+                //'MAX CELL - WAVELENGTH REFINEMENT 
+                InvokeCST(MeshSettings, "Set", "StepsPerWaveNear", "10");
+                InvokeCST(MeshSettings, "Set", "StepsPerWaveFar", "10");
+                InvokeCST(MeshSettings, "Set", "WavelengthRefinementSameAsNear", "1");
+                //'MAX CELL - GEOMETRY REFINEMENT 
+                InvokeCST(MeshSettings, "Set", "StepsPerBoxNear", "10");
+                InvokeCST(MeshSettings, "Set", "StepsPerBoxFar", "1");
+                InvokeCST(MeshSettings, "Set", "MaxStepNear", "0");
+                InvokeCST(MeshSettings, "Set", "MaxStepFar", "0");
+                InvokeCST(MeshSettings, "Set", "ModelBoxDescrNear", "maxedge");
+                InvokeCST(MeshSettings, "Set", "ModelBoxDescrFar", "maxedge");
+                InvokeCST(MeshSettings, "Set", "UseMaxStepAbsolute", "0");
+                InvokeCST(MeshSettings, "Set", "GeometryRefinementSameAsNear", "0");
+                //'MIN CELL 
+                InvokeCST(MeshSettings, "Set", "UseRatioLimitGeometry", "1");
+                InvokeCST(MeshSettings, "Set", "RatioLimitGeometry", "15");
+                InvokeCST(MeshSettings, "Set", "MinStepGeometryX", "0");
+                InvokeCST(MeshSettings, "Set", "MinStepGeometryY", "0");
+                InvokeCST(MeshSettings, "Set", "MinStepGeometryZ", "0");
+                InvokeCST(MeshSettings, "Set", "UseSameMinStepGeometryXYZ", "1");
+
                 //конец моделирования 
             }
             catch (Exception ex)

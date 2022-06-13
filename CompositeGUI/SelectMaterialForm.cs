@@ -38,6 +38,7 @@ namespace CompositeGUI
             Text = isMatrixMaterial ? "Выбор материала матрицы" : "Выбор материала волокна";
             FillMaterialsComboBox();
             comboBox1.SelectedIndex = selectedIndex;
+            button2.Enabled = !Main.InProcess();
         }
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)

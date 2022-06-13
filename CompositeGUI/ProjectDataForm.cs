@@ -33,6 +33,8 @@ namespace CompositeGUI
 
             numericUpDown1.Value = Convert.ToDecimal(Main.CurrentProject.MinFrequency);
             numericUpDown2.Value = Convert.ToDecimal(Main.CurrentProject.MaxFrequency);
+
+            saveButton.Enabled = !Main.InProcess();
         }
 
         void FillMaterials()
@@ -104,7 +106,7 @@ namespace CompositeGUI
 
         private void nameTextBox_TextChanged(object sender, EventArgs e)
         {
-            saveButton.Enabled = nameTextBox.Text.Length != 0;
+            saveButton.Enabled = nameTextBox.Text.Length != 0 && !Main.InProcess();
         }
 
         private void matrixComboBox_SelectedIndexChanged(object sender, EventArgs e)

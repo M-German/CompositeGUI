@@ -44,13 +44,13 @@ namespace CompositeGUI
             this.limitsToolstrip = new System.Windows.Forms.ToolStripMenuItem();
             this.algorithmToolstrip = new System.Windows.Forms.ToolStripMenuItem();
             this.выполнитьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportToolstrip = new System.Windows.Forms.ToolStripMenuItem();
             this.startToolstrip = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.помощьToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.оПрограммеToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.resultsPanel = new System.Windows.Forms.Panel();
+            this.topComboBox = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.resultsDataGridView = new System.Windows.Forms.DataGridView();
@@ -160,22 +160,15 @@ namespace CompositeGUI
             // выполнитьToolStripMenuItem
             // 
             this.выполнитьToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exportToolstrip,
             this.startToolstrip});
             this.выполнитьToolStripMenuItem.Name = "выполнитьToolStripMenuItem";
             this.выполнитьToolStripMenuItem.Size = new System.Drawing.Size(109, 24);
             this.выполнитьToolStripMenuItem.Text = "Выполнить";
             // 
-            // exportToolstrip
-            // 
-            this.exportToolstrip.Name = "exportToolstrip";
-            this.exportToolstrip.Size = new System.Drawing.Size(318, 26);
-            this.exportToolstrip.Text = "Экспортировать результаты";
-            // 
             // startToolstrip
             // 
             this.startToolstrip.Name = "startToolstrip";
-            this.startToolstrip.Size = new System.Drawing.Size(318, 26);
+            this.startToolstrip.Size = new System.Drawing.Size(317, 26);
             this.startToolstrip.Text = "Запуск проектирования КМ";
             this.startToolstrip.Click += new System.EventHandler(this.startToolstrip_Click);
             // 
@@ -191,13 +184,13 @@ namespace CompositeGUI
             // помощьToolStripMenuItem
             // 
             this.помощьToolStripMenuItem.Name = "помощьToolStripMenuItem";
-            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(202, 26);
+            this.помощьToolStripMenuItem.Size = new System.Drawing.Size(224, 26);
             this.помощьToolStripMenuItem.Text = "Помощь";
             // 
             // оПрограммеToolStripMenuItem1
             // 
             this.оПрограммеToolStripMenuItem1.Name = "оПрограммеToolStripMenuItem1";
-            this.оПрограммеToolStripMenuItem1.Size = new System.Drawing.Size(202, 26);
+            this.оПрограммеToolStripMenuItem1.Size = new System.Drawing.Size(224, 26);
             this.оПрограммеToolStripMenuItem1.Text = "О программе";
             this.оПрограммеToolStripMenuItem1.Click += new System.EventHandler(this.оПрограммеToolStripMenuItem1_Click);
             // 
@@ -214,6 +207,7 @@ namespace CompositeGUI
             // 
             // resultsPanel
             // 
+            this.resultsPanel.Controls.Add(this.topComboBox);
             this.resultsPanel.Controls.Add(this.button1);
             this.resultsPanel.Controls.Add(this.label1);
             this.resultsPanel.Controls.Add(this.resultsDataGridView);
@@ -224,6 +218,20 @@ namespace CompositeGUI
             this.resultsPanel.Name = "resultsPanel";
             this.resultsPanel.Size = new System.Drawing.Size(1731, 694);
             this.resultsPanel.TabIndex = 7;
+            // 
+            // topComboBox
+            // 
+            this.topComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.topComboBox.Items.AddRange(new object[] {
+            "Все",
+            "Топ 5",
+            "Топ 10",
+            "Топ 20"});
+            this.topComboBox.Location = new System.Drawing.Point(962, 43);
+            this.topComboBox.Name = "topComboBox";
+            this.topComboBox.Size = new System.Drawing.Size(108, 28);
+            this.topComboBox.TabIndex = 6;
+            this.topComboBox.SelectedIndexChanged += new System.EventHandler(this.topComboBox_SelectedIndexChanged);
             // 
             // button1
             // 
@@ -238,7 +246,7 @@ namespace CompositeGUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1106, 46);
+            this.label1.Location = new System.Drawing.Point(1147, 46);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 20);
             this.label1.TabIndex = 3;
@@ -261,9 +269,9 @@ namespace CompositeGUI
             // resultComboBox
             // 
             this.resultComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.resultComboBox.Location = new System.Drawing.Point(1244, 43);
+            this.resultComboBox.Location = new System.Drawing.Point(1285, 43);
             this.resultComboBox.Name = "resultComboBox";
-            this.resultComboBox.Size = new System.Drawing.Size(211, 28);
+            this.resultComboBox.Size = new System.Drawing.Size(170, 28);
             this.resultComboBox.TabIndex = 2;
             this.resultComboBox.SelectedIndexChanged += new System.EventHandler(this.resultComboBox_SelectedIndexChanged);
             // 
@@ -320,7 +328,6 @@ namespace CompositeGUI
         private System.Windows.Forms.ToolStripMenuItem limitsToolstrip;
         private System.Windows.Forms.ToolStripMenuItem algorithmToolstrip;
         private System.Windows.Forms.ToolStripMenuItem выполнитьToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exportToolstrip;
         private System.Windows.Forms.ToolStripMenuItem startToolstrip;
         private System.Windows.Forms.ToolStripMenuItem помощьToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem оПрограммеToolStripMenuItem1;
@@ -332,6 +339,7 @@ namespace CompositeGUI
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel resultsPanel;
         private System.Windows.Forms.DataGridView resultsDataGridView;
+        private System.Windows.Forms.ComboBox topComboBox;
     }
 }
 

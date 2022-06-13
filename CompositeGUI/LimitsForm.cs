@@ -16,6 +16,7 @@ namespace CompositeGUI
 
         private void FiberStructure_Load(object sender, System.EventArgs e)
         {
+            saveButton.Enabled = !Main.InProcess();
             SelectedLimitsId = Main.CurrentProject.LimitsId;
             FillLimits();
         }
