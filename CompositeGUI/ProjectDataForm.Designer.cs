@@ -46,8 +46,14 @@ namespace CompositeGUI
             this.matrixButton = new System.Windows.Forms.Button();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.nameLabel = new System.Windows.Forms.Label();
+            this.gridWidthUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.gridSpaceUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridWidthUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridSpaceUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // metalGridComboBox
@@ -56,15 +62,16 @@ namespace CompositeGUI
             this.metalGridComboBox.Items.AddRange(new object[] {
             "Да",
             "Нет"});
-            this.metalGridComboBox.Location = new System.Drawing.Point(272, 92);
+            this.metalGridComboBox.Location = new System.Drawing.Point(269, 80);
             this.metalGridComboBox.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.metalGridComboBox.Name = "metalGridComboBox";
             this.metalGridComboBox.Size = new System.Drawing.Size(215, 28);
             this.metalGridComboBox.TabIndex = 12;
+            this.metalGridComboBox.SelectedIndexChanged += new System.EventHandler(this.metalGridComboBox_SelectedIndexChanged);
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(405, 327);
+            this.saveButton.Location = new System.Drawing.Point(403, 419);
             this.saveButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(114, 34);
@@ -75,7 +82,7 @@ namespace CompositeGUI
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(306, 327);
+            this.cancelButton.Location = new System.Drawing.Point(298, 419);
             this.cancelButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(92, 34);
@@ -88,7 +95,7 @@ namespace CompositeGUI
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(13, 93);
+            this.label1.Location = new System.Drawing.Point(30, 81);
             this.label1.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(223, 23);
@@ -99,7 +106,7 @@ namespace CompositeGUI
             // 
             this.matrixLabel.AutoSize = true;
             this.matrixLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.matrixLabel.Location = new System.Drawing.Point(33, 149);
+            this.matrixLabel.Location = new System.Drawing.Point(53, 235);
             this.matrixLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.matrixLabel.Name = "matrixLabel";
             this.matrixLabel.Size = new System.Drawing.Size(202, 23);
@@ -110,7 +117,7 @@ namespace CompositeGUI
             // 
             this.fiberLabel.AutoSize = true;
             this.fiberLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.fiberLabel.Location = new System.Drawing.Point(39, 206);
+            this.fiberLabel.Location = new System.Drawing.Point(53, 294);
             this.fiberLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.fiberLabel.Name = "fiberLabel";
             this.fiberLabel.Size = new System.Drawing.Size(197, 23);
@@ -122,7 +129,7 @@ namespace CompositeGUI
             this.matrixComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.matrixComboBox.Items.AddRange(new object[] {
             "Нет материала"});
-            this.matrixComboBox.Location = new System.Drawing.Point(272, 147);
+            this.matrixComboBox.Location = new System.Drawing.Point(268, 233);
             this.matrixComboBox.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.matrixComboBox.Name = "matrixComboBox";
             this.matrixComboBox.Size = new System.Drawing.Size(215, 28);
@@ -134,7 +141,7 @@ namespace CompositeGUI
             this.fiberComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.fiberComboBox.Items.AddRange(new object[] {
             "Нет материала"});
-            this.fiberComboBox.Location = new System.Drawing.Point(272, 206);
+            this.fiberComboBox.Location = new System.Drawing.Point(268, 292);
             this.fiberComboBox.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.fiberComboBox.Name = "fiberComboBox";
             this.fiberComboBox.Size = new System.Drawing.Size(215, 28);
@@ -145,7 +152,7 @@ namespace CompositeGUI
             // 
             this.freqLabel.AutoSize = true;
             this.freqLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.freqLabel.Location = new System.Drawing.Point(96, 257);
+            this.freqLabel.Location = new System.Drawing.Point(110, 343);
             this.freqLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.freqLabel.Name = "freqLabel";
             this.freqLabel.Size = new System.Drawing.Size(140, 23);
@@ -160,7 +167,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.numericUpDown1.Location = new System.Drawing.Point(300, 257);
+            this.numericUpDown1.Location = new System.Drawing.Point(296, 343);
             this.numericUpDown1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.numericUpDown1.Name = "numericUpDown1";
             this.numericUpDown1.Size = new System.Drawing.Size(72, 27);
@@ -174,7 +181,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.numericUpDown2.Location = new System.Drawing.Point(413, 257);
+            this.numericUpDown2.Location = new System.Drawing.Point(409, 343);
             this.numericUpDown2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.numericUpDown2.Name = "numericUpDown2";
             this.numericUpDown2.Size = new System.Drawing.Size(72, 27);
@@ -183,7 +190,7 @@ namespace CompositeGUI
             // freqFromLabel
             // 
             this.freqFromLabel.AutoSize = true;
-            this.freqFromLabel.Location = new System.Drawing.Point(269, 258);
+            this.freqFromLabel.Location = new System.Drawing.Point(265, 344);
             this.freqFromLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.freqFromLabel.Name = "freqFromLabel";
             this.freqFromLabel.Size = new System.Drawing.Size(26, 20);
@@ -193,7 +200,7 @@ namespace CompositeGUI
             // freqToLabel
             // 
             this.freqToLabel.AutoSize = true;
-            this.freqToLabel.Location = new System.Drawing.Point(379, 258);
+            this.freqToLabel.Location = new System.Drawing.Point(375, 344);
             this.freqToLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.freqToLabel.Name = "freqToLabel";
             this.freqToLabel.Size = new System.Drawing.Size(29, 20);
@@ -204,7 +211,7 @@ namespace CompositeGUI
             // 
             this.fiberButton.BackgroundImage = global::CompositeGUI.Properties.Resources.gear;
             this.fiberButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.fiberButton.Location = new System.Drawing.Point(493, 206);
+            this.fiberButton.Location = new System.Drawing.Point(489, 292);
             this.fiberButton.Margin = new System.Windows.Forms.Padding(0);
             this.fiberButton.Name = "fiberButton";
             this.fiberButton.Size = new System.Drawing.Size(28, 28);
@@ -216,7 +223,7 @@ namespace CompositeGUI
             // 
             this.matrixButton.BackgroundImage = global::CompositeGUI.Properties.Resources.gear;
             this.matrixButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.matrixButton.Location = new System.Drawing.Point(493, 147);
+            this.matrixButton.Location = new System.Drawing.Point(489, 233);
             this.matrixButton.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.matrixButton.Name = "matrixButton";
             this.matrixButton.Size = new System.Drawing.Size(28, 28);
@@ -226,9 +233,9 @@ namespace CompositeGUI
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(272, 43);
+            this.nameTextBox.Location = new System.Drawing.Point(268, 31);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(213, 27);
+            this.nameTextBox.Size = new System.Drawing.Size(216, 27);
             this.nameTextBox.TabIndex = 25;
             this.nameTextBox.TextChanged += new System.EventHandler(this.nameTextBox_TextChanged);
             // 
@@ -236,18 +243,102 @@ namespace CompositeGUI
             // 
             this.nameLabel.AutoSize = true;
             this.nameLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLabel.Location = new System.Drawing.Point(33, 44);
+            this.nameLabel.Location = new System.Drawing.Point(60, 32);
             this.nameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(193, 23);
             this.nameLabel.TabIndex = 26;
             this.nameLabel.Text = "Название проекта:";
             // 
+            // gridWidthUpDown
+            // 
+            this.gridWidthUpDown.DecimalPlaces = 1;
+            this.gridWidthUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.gridWidthUpDown.Location = new System.Drawing.Point(268, 127);
+            this.gridWidthUpDown.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.gridWidthUpDown.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.gridWidthUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.gridWidthUpDown.Name = "gridWidthUpDown";
+            this.gridWidthUpDown.Size = new System.Drawing.Size(216, 27);
+            this.gridWidthUpDown.TabIndex = 27;
+            this.gridWidthUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(23, 127);
+            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(235, 23);
+            this.label2.TabIndex = 28;
+            this.label2.Text = "Диаетр проволоки (мм):";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(45, 181);
+            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(208, 23);
+            this.label3.TabIndex = 30;
+            this.label3.Text = "Размер ячейки (мм2):";
+            // 
+            // gridSpaceUpDown
+            // 
+            this.gridSpaceUpDown.DecimalPlaces = 1;
+            this.gridSpaceUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            65536});
+            this.gridSpaceUpDown.Location = new System.Drawing.Point(268, 181);
+            this.gridSpaceUpDown.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
+            this.gridSpaceUpDown.Maximum = new decimal(new int[] {
+            3,
+            0,
+            0,
+            0});
+            this.gridSpaceUpDown.Minimum = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            this.gridSpaceUpDown.Name = "gridSpaceUpDown";
+            this.gridSpaceUpDown.Size = new System.Drawing.Size(216, 27);
+            this.gridSpaceUpDown.TabIndex = 29;
+            this.gridSpaceUpDown.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            65536});
+            // 
             // ProjectDataForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(530, 374);
+            this.ClientSize = new System.Drawing.Size(528, 466);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.gridSpaceUpDown);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.gridWidthUpDown);
             this.Controls.Add(this.nameLabel);
             this.Controls.Add(this.nameTextBox);
             this.Controls.Add(this.freqToLabel);
@@ -272,6 +363,8 @@ namespace CompositeGUI
             this.Load += new System.EventHandler(this.AdvancedOptionsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridWidthUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.gridSpaceUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -296,5 +389,9 @@ namespace CompositeGUI
         private System.Windows.Forms.Label freqToLabel;
         private System.Windows.Forms.TextBox nameTextBox;
         private System.Windows.Forms.Label nameLabel;
+        private System.Windows.Forms.NumericUpDown gridWidthUpDown;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.NumericUpDown gridSpaceUpDown;
     }
 }

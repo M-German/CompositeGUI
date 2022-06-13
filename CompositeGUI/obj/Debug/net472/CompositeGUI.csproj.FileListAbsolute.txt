@@ -60,3 +60,4 @@ C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\Entity
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\bin\Debug\net472\EntityFramework.dll
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.csproj.CopyComplete
 C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.SimulationStatusForm.resources
+C:\Users\German\Desktop\ВКР\CompositeGUI\CompositeGUI\obj\Debug\net472\CompositeGUI.Form1.resources

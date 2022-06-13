@@ -10,6 +10,8 @@ namespace CompositeGUI
         [Key]
         public int ProjectId { get; set; }
         public bool HasMetalGrid { get; set; }
+        public double GridWidth { get; set; }
+        public double GridSpaceBetween { get; set; }
         public double MinFrequency { get; set; }
         public double MaxFrequency { get; set; }
         public string Name { get; set; }
@@ -42,6 +44,8 @@ namespace CompositeGUI
         {
             Composites = new List<Composite>();
             HasMetalGrid = true;
+            GridWidth = 1;
+            GridSpaceBetween = 1;
             MinFrequency = 0.1;
             MaxFrequency = 1;
         }

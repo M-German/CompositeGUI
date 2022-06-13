@@ -11,37 +11,29 @@ namespace CompositeGUI
 {
     class GeneticAlgorithm
     {
+        Project p;
         UpdateStatusForThreadDelegate UpdateStatus;
-        int projectId;
-        GA_Settings settings;
-        bool hasMetalGrid;
-        Material matrixMaterial;
-        Material fiberMaterial;
-        Limits limits;
-        (double, double) frequency;
-        double mutationProbability;
-
-        int currentGeneration = 1,
-            numberInProject = 1;
         List<Composite> initialGeneration;
-        (double, double) mutationRange = (-0.3, 0.3);
         List<Composite> population;
         Random rnd = new Random();
 
+        int currentGeneration = 1, numberInProject = 1;
+        double mutationProbability;
+        (double, double) mutationRange = (-0.3, 0.3);
         bool STOP = false;
 
         void GeneratePopulation()
         {
-            population = new List<Composite>(settings.PopulationSize);
-            for(int i=0; i < settings.PopulationSize; i++) {
+            population = new List<Composite>(p.GA_Settings.PopulationSize);
+            for(int i=0; i < p.GA_Settings.PopulationSize; i++) {
                 Composite c = new Composite();
-                c.ProjectId = projectId;
+                c.ProjectId = p.ProjectId;
                 c.NumberInProject = ++numberInProject;
                 c.Generation = currentGeneration;
-                c.LayerCount = RandomValue.RandomInt(rnd, limits.MinLayerCount, limits.MaxLayerCount);
-                c.FiberWidth = RandomValue.RandomDouble(rnd, limits.MinFiberWidth, limits.MaxFiberWidth);
-                c.FiberThickness = RandomValue.RandomDouble(rnd, limits.MinFiberThickness, limits.MaxFiberThickness);
-                c.FiberSpaceBetween = RandomValue.RandomDouble(rnd, limits.MinFiberSpaceBetween, limits.MaxFiberSpaceBetween);
+                c.LayerCount = RandomValue.RandomInt(rnd, p.Limits.MinLayerCount, p.Limits.MaxLayerCount);
+                c.FiberWidth = RandomValue.RandomDouble(rnd, p.Limits.MinFiberWidth, p.Limits.MaxFiberWidth);
+                c.FiberThickness = RandomValue.RandomDouble(rnd, p.Limits.MinFiberThickness, p.Limits.MaxFiberThickness);
+                c.FiberSpaceBetween = RandomValue.RandomDouble(rnd, p.Limits.MinFiberSpaceBetween, p.Limits.MaxFiberSpaceBetween);
 
                 population.Add(c);
             }
@@ -56,7 +48,7 @@ namespace CompositeGUI
                 c = population[i];
                 cst = new CST();
 
-                c.ProjectId = projectId;
+                c.ProjectId = p.ProjectId;
                 c.NumberInProject = ++numberInProject;
                 c.Generation = currentGeneration;
 
@@ -68,7 +60,7 @@ namespace CompositeGUI
                 });
 
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
-                c.CstResults = cst.GetResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
+                c.CstResults = cst.GetResults(c, p);
                 ////////////////////////////////////////////////////////////////////////////////////////////////////
                 //c.CstResults = cst.GetTestResults(c, matrixMaterial, fiberMaterial, hasMetalGrid, frequency);
 
@@ -91,10 +83,10 @@ namespace CompositeGUI
             int indexOfMax;
             List<Composite> newP = new List<Composite>();
             
-            while(population.Count >= settings.SelectionTourneySize)
+            while(population.Count >= p.GA_Settings.SelectionTourneySize)
             {
                 indexOfMax = 0;
-                for (int i = 0; i < settings.SelectionTourneySize; i++)
+                for (int i = 0; i < p.GA_Settings.SelectionTourneySize; i++)
                 {
                     if (population[i].ShieldingEfficiency > population[indexOfMax].ShieldingEfficiency)
                     {
@@ -112,11 +104,11 @@ namespace CompositeGUI
         {
             double Cmin, Cmax, alphaDeltaC;
             List<Composite> newP = new List<Composite>();
-            for (int i = 0; i < settings.PopulationSize && newP.Count+1 < settings.PopulationSize; i++)
+            for (int i = 0; i < p.GA_Settings.PopulationSize && newP.Count+1 < p.GA_Settings.PopulationSize; i++)
             {
-                for (int j = i+1; j < settings.PopulationSize-1; j++)
+                for (int j = i+1; j < p.GA_Settings.PopulationSize-1; j++)
                 {
-                    if (newP.Count+1 >= settings.PopulationSize) break;
+                    if (newP.Count+1 >= p.GA_Settings.PopulationSize) break;
 
                     Composite newOffspring = new Composite();
 
@@ -124,11 +116,11 @@ namespace CompositeGUI
                     // Ширина волокна
                     Cmin = Math.Min(population[i].FiberWidth, population[j].FiberWidth);
                     Cmax = Math.Max(population[i].FiberWidth, population[j].FiberWidth);
-                    alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
+                    alphaDeltaC = p.GA_Settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberWidth ? Cmin - alphaDeltaC : limits.MinFiberWidth;
-                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberWidth ? Cmax + alphaDeltaC : limits.MaxFiberWidth;
+                    Cmin = Cmin - alphaDeltaC >= p.Limits.MinFiberWidth ? Cmin - alphaDeltaC : p.Limits.MinFiberWidth;
+                    Cmax = Cmax + alphaDeltaC <= p.Limits.MaxFiberWidth ? Cmax + alphaDeltaC : p.Limits.MaxFiberWidth;
                     
                     // BLX-alpha crossingover
                     newOffspring.FiberWidth = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -141,11 +133,11 @@ namespace CompositeGUI
                     // Толщина волокна
                     Cmin = Math.Min(population[i].FiberThickness, population[j].FiberThickness);
                     Cmax = Math.Max(population[i].FiberThickness, population[j].FiberThickness);
-                    alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
+                    alphaDeltaC = p.GA_Settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberThickness ? Cmin - alphaDeltaC : limits.MinFiberThickness;
-                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberThickness ? Cmax + alphaDeltaC : limits.MaxFiberThickness;
+                    Cmin = Cmin - alphaDeltaC >= p.Limits.MinFiberThickness ? Cmin - alphaDeltaC : p.Limits.MinFiberThickness;
+                    Cmax = Cmax + alphaDeltaC <= p.Limits.MaxFiberThickness ? Cmax + alphaDeltaC : p.Limits.MaxFiberThickness;
 
                     // BLX-alpha crossingover
                     newOffspring.FiberThickness = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -154,11 +146,11 @@ namespace CompositeGUI
                     // Расстояние между волокнами
                     Cmin = Math.Min(population[i].FiberSpaceBetween, population[j].FiberSpaceBetween);
                     Cmax = Math.Max(population[i].FiberSpaceBetween, population[j].FiberSpaceBetween);
-                    alphaDeltaC = settings.CrossingoverAlphaParam * (Cmax - Cmin);
+                    alphaDeltaC = p.GA_Settings.CrossingoverAlphaParam * (Cmax - Cmin);
 
                     // Определяем границы изменения значения хромосомы
-                    Cmin = Cmin - alphaDeltaC >= limits.MinFiberSpaceBetween ? Cmin - alphaDeltaC : limits.MinFiberSpaceBetween;
-                    Cmax = Cmax + alphaDeltaC <= limits.MaxFiberSpaceBetween ? Cmax + alphaDeltaC : limits.MaxFiberSpaceBetween;
+                    Cmin = Cmin - alphaDeltaC >= p.Limits.MinFiberSpaceBetween ? Cmin - alphaDeltaC : p.Limits.MinFiberSpaceBetween;
+                    Cmax = Cmax + alphaDeltaC <= p.Limits.MaxFiberSpaceBetween ? Cmax + alphaDeltaC : p.Limits.MaxFiberSpaceBetween;
 
                     // BLX-alpha crossingover
                     newOffspring.FiberSpaceBetween = RandomValue.RandomDouble(rnd, Cmin, Cmax);
@@ -173,26 +165,26 @@ namespace CompositeGUI
 
         void Mutation()
         {
-            double p;
+            double prob;
             foreach (Composite c in population)
             {
-                p = RandomValue.RandomDouble(rnd, 0, 1);
-                if(p < mutationProbability) // мутация
+                prob = RandomValue.RandomDouble(rnd, 0, 1);
+                if(prob < mutationProbability) // мутация
                 { 
                     // Ширина
                     c.FiberWidth += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberWidth > limits.MaxFiberWidth) c.FiberWidth = limits.MaxFiberWidth;
-                    else if (c.FiberWidth < limits.MinFiberWidth) c.FiberWidth = limits.MinFiberWidth;
+                    if (c.FiberWidth > p.Limits.MaxFiberWidth) c.FiberWidth = p.Limits.MaxFiberWidth;
+                    else if (c.FiberWidth < p.Limits.MinFiberWidth) c.FiberWidth = p.Limits.MinFiberWidth;
 
                     // Толщина
                     c.FiberThickness += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberThickness > limits.MaxFiberThickness) c.FiberThickness = limits.MaxFiberThickness;
-                    else if (c.FiberThickness < limits.MinFiberThickness) c.FiberThickness = limits.MinFiberThickness;
+                    if (c.FiberThickness > p.Limits.MaxFiberThickness) c.FiberThickness = p.Limits.MaxFiberThickness;
+                    else if (c.FiberThickness < p.Limits.MinFiberThickness) c.FiberThickness = p.Limits.MinFiberThickness;
 
                     // Расстояние между волокнами
                     c.FiberSpaceBetween += RandomValue.RandomDouble(rnd, mutationRange.Item1, mutationRange.Item2);
-                    if (c.FiberSpaceBetween > limits.MaxFiberSpaceBetween) c.FiberSpaceBetween = limits.MaxFiberSpaceBetween;
-                    else if (c.FiberSpaceBetween < limits.MinFiberSpaceBetween) c.FiberSpaceBetween = limits.MinFiberSpaceBetween;
+                    if (c.FiberSpaceBetween > p.Limits.MaxFiberSpaceBetween) c.FiberSpaceBetween = p.Limits.MaxFiberSpaceBetween;
+                    else if (c.FiberSpaceBetween < p.Limits.MinFiberSpaceBetween) c.FiberSpaceBetween = p.Limits.MinFiberSpaceBetween;
                 }
             }
         }
@@ -229,7 +221,7 @@ namespace CompositeGUI
                 SaveCurrentPopulation();
             }
 
-            while (currentGeneration < settings.MaxGenerations && !STOP)
+            while (currentGeneration < p.GA_Settings.MaxGenerations && !STOP)
             {
                 currentGeneration++;
                 TourneySelection();
@@ -249,19 +241,13 @@ namespace CompositeGUI
         public GeneticAlgorithm(Project p, UpdateStatusForThreadDelegate UpdateStatus)
         {
             this.UpdateStatus = UpdateStatus;
-            projectId = p.ProjectId;
-            settings = p.GA_Settings;
-            hasMetalGrid = p.HasMetalGrid;
-            matrixMaterial = p.MatrixMaterial;
-            fiberMaterial = p.FiberMaterial;
-            limits = p.Limits;
-            frequency = (p.MinFrequency, p.MaxFrequency);
+            this.p = p;
             STOP = false;
-            mutationProbability = 1 / (2 * settings.PopulationSize);
+            mutationProbability = 1 / (2 * p.GA_Settings.PopulationSize);
 
             initialGeneration = p.Composites
                 .OrderByDescending(c => c.Generation)
-                .Take(settings.PopulationSize)
+                .Take(p.GA_Settings.PopulationSize)
                 .ToList();
 
             numberInProject = p.Composites.Count;

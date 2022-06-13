@@ -66,7 +66,7 @@ namespace CompositeGUI
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(305, 354);
+            this.saveButton.Location = new System.Drawing.Point(343, 358);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(114, 34);
             this.saveButton.TabIndex = 24;
@@ -76,7 +76,7 @@ namespace CompositeGUI
             // 
             // cancelButton
             // 
-            this.cancelButton.Location = new System.Drawing.Point(206, 354);
+            this.cancelButton.Location = new System.Drawing.Point(244, 358);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(93, 34);
             this.cancelButton.TabIndex = 23;
@@ -87,7 +87,7 @@ namespace CompositeGUI
             // freqToLabel
             // 
             this.freqToLabel.AutoSize = true;
-            this.freqToLabel.Location = new System.Drawing.Point(311, 107);
+            this.freqToLabel.Location = new System.Drawing.Point(353, 107);
             this.freqToLabel.Name = "freqToLabel";
             this.freqToLabel.Size = new System.Drawing.Size(29, 20);
             this.freqToLabel.TabIndex = 29;
@@ -96,7 +96,7 @@ namespace CompositeGUI
             // freqFromLabel
             // 
             this.freqFromLabel.AutoSize = true;
-            this.freqFromLabel.Location = new System.Drawing.Point(200, 107);
+            this.freqFromLabel.Location = new System.Drawing.Point(242, 107);
             this.freqFromLabel.Name = "freqFromLabel";
             this.freqFromLabel.Size = new System.Drawing.Size(26, 20);
             this.freqFromLabel.TabIndex = 28;
@@ -104,7 +104,7 @@ namespace CompositeGUI
             // 
             // maxLayersUpDown
             // 
-            this.maxLayersUpDown.Location = new System.Drawing.Point(346, 105);
+            this.maxLayersUpDown.Location = new System.Drawing.Point(388, 105);
             this.maxLayersUpDown.Maximum = new decimal(new int[] {
             5,
             0,
@@ -126,7 +126,7 @@ namespace CompositeGUI
             // 
             // minLayersUpDown
             // 
-            this.minLayersUpDown.Location = new System.Drawing.Point(232, 105);
+            this.minLayersUpDown.Location = new System.Drawing.Point(274, 105);
             this.minLayersUpDown.Maximum = new decimal(new int[] {
             5,
             0,
@@ -150,7 +150,7 @@ namespace CompositeGUI
             // 
             this.layersLabel.AutoSize = true;
             this.layersLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.layersLabel.Location = new System.Drawing.Point(8, 105);
+            this.layersLabel.Location = new System.Drawing.Point(49, 105);
             this.layersLabel.Name = "layersLabel";
             this.layersLabel.Size = new System.Drawing.Size(186, 23);
             this.layersLabel.TabIndex = 25;
@@ -159,7 +159,7 @@ namespace CompositeGUI
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(311, 162);
+            this.label1.Location = new System.Drawing.Point(353, 162);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(29, 20);
             this.label1.TabIndex = 34;
@@ -168,7 +168,7 @@ namespace CompositeGUI
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(200, 162);
+            this.label2.Location = new System.Drawing.Point(242, 162);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(26, 20);
             this.label2.TabIndex = 33;
@@ -182,7 +182,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.maxWidthUpDown.Location = new System.Drawing.Point(346, 160);
+            this.maxWidthUpDown.Location = new System.Drawing.Point(388, 160);
             this.maxWidthUpDown.Name = "maxWidthUpDown";
             this.maxWidthUpDown.Size = new System.Drawing.Size(73, 27);
             this.maxWidthUpDown.TabIndex = 32;
@@ -195,7 +195,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.minWidthUpDown.Location = new System.Drawing.Point(232, 160);
+            this.minWidthUpDown.Location = new System.Drawing.Point(274, 160);
             this.minWidthUpDown.Name = "minWidthUpDown";
             this.minWidthUpDown.Size = new System.Drawing.Size(73, 27);
             this.minWidthUpDown.TabIndex = 31;
@@ -204,16 +204,16 @@ namespace CompositeGUI
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(17, 159);
+            this.label3.Location = new System.Drawing.Point(18, 160);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(177, 23);
+            this.label3.Size = new System.Drawing.Size(218, 23);
             this.label3.TabIndex = 30;
-            this.label3.Text = "Ширина волокна:";
+            this.label3.Text = "Ширина волокна (мм):";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(311, 217);
+            this.label4.Location = new System.Drawing.Point(353, 217);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(29, 20);
             this.label4.TabIndex = 39;
@@ -222,7 +222,7 @@ namespace CompositeGUI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(200, 217);
+            this.label5.Location = new System.Drawing.Point(242, 217);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(26, 20);
             this.label5.TabIndex = 38;
@@ -236,7 +236,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.maxThickUpDown.Location = new System.Drawing.Point(346, 215);
+            this.maxThickUpDown.Location = new System.Drawing.Point(388, 215);
             this.maxThickUpDown.Name = "maxThickUpDown";
             this.maxThickUpDown.Size = new System.Drawing.Size(73, 27);
             this.maxThickUpDown.TabIndex = 37;
@@ -249,7 +249,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.minThickUpDown.Location = new System.Drawing.Point(232, 215);
+            this.minThickUpDown.Location = new System.Drawing.Point(274, 215);
             this.minThickUpDown.Name = "minThickUpDown";
             this.minThickUpDown.Size = new System.Drawing.Size(73, 27);
             this.minThickUpDown.TabIndex = 36;
@@ -258,16 +258,16 @@ namespace CompositeGUI
             // 
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(11, 214);
+            this.label6.Location = new System.Drawing.Point(12, 215);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(183, 23);
+            this.label6.Size = new System.Drawing.Size(224, 23);
             this.label6.TabIndex = 35;
-            this.label6.Text = "Толщина волокна:";
+            this.label6.Text = "Толщина волокна (мм):";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(311, 277);
+            this.label7.Location = new System.Drawing.Point(353, 277);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(29, 20);
             this.label7.TabIndex = 44;
@@ -276,7 +276,7 @@ namespace CompositeGUI
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(200, 277);
+            this.label8.Location = new System.Drawing.Point(242, 277);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(26, 20);
             this.label8.TabIndex = 43;
@@ -290,7 +290,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.maxSpaceUpDown.Location = new System.Drawing.Point(346, 275);
+            this.maxSpaceUpDown.Location = new System.Drawing.Point(388, 275);
             this.maxSpaceUpDown.Name = "maxSpaceUpDown";
             this.maxSpaceUpDown.Size = new System.Drawing.Size(73, 27);
             this.maxSpaceUpDown.TabIndex = 42;
@@ -303,7 +303,7 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.minSpaceUpDown.Location = new System.Drawing.Point(232, 275);
+            this.minSpaceUpDown.Location = new System.Drawing.Point(274, 275);
             this.minSpaceUpDown.Name = "minSpaceUpDown";
             this.minSpaceUpDown.Size = new System.Drawing.Size(73, 27);
             this.minSpaceUpDown.TabIndex = 41;
@@ -312,11 +312,11 @@ namespace CompositeGUI
             // 
             this.label9.AutoSize = true;
             this.label9.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(9, 275);
+            this.label9.Location = new System.Drawing.Point(51, 263);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(185, 46);
             this.label9.TabIndex = 40;
-            this.label9.Text = "Расстояние между\r\n волокнами:";
+            this.label9.Text = "Расстояние между\r\n волокнами (мм):";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
             // label10
@@ -338,13 +338,13 @@ namespace CompositeGUI
             "Шаблон 2"});
             this.comboBox1.Location = new System.Drawing.Point(12, 40);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(370, 28);
+            this.comboBox1.Size = new System.Drawing.Size(407, 28);
             this.comboBox1.TabIndex = 45;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(388, 40);
+            this.deleteButton.Location = new System.Drawing.Point(430, 40);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(31, 28);
             this.deleteButton.TabIndex = 47;
@@ -356,7 +356,7 @@ namespace CompositeGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(431, 404);
+            this.ClientSize = new System.Drawing.Size(469, 404);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.comboBox1);

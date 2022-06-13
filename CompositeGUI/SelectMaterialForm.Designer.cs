@@ -36,10 +36,10 @@ namespace CompositeGUI
             this.button2 = new System.Windows.Forms.Button();
             this.magUpDown = new System.Windows.Forms.NumericUpDown();
             this.elecLabel = new System.Windows.Forms.Label();
+            this.magLabel = new System.Windows.Forms.Label();
             this.thermalUpDown = new System.Windows.Forms.NumericUpDown();
             this.thermalLabel = new System.Windows.Forms.Label();
             this.elecUpDown = new System.Windows.Forms.NumericUpDown();
-            this.magLabel = new System.Windows.Forms.Label();
             this.nameTextBox = new System.Windows.Forms.TextBox();
             this.nameLabel = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
@@ -61,26 +61,26 @@ namespace CompositeGUI
             this.panel1.Controls.Add(this.button2);
             this.panel1.Controls.Add(this.magUpDown);
             this.panel1.Controls.Add(this.elecLabel);
+            this.panel1.Controls.Add(this.magLabel);
             this.panel1.Controls.Add(this.thermalUpDown);
             this.panel1.Controls.Add(this.thermalLabel);
             this.panel1.Controls.Add(this.elecUpDown);
-            this.panel1.Controls.Add(this.magLabel);
             this.panel1.Controls.Add(this.nameTextBox);
             this.panel1.Controls.Add(this.nameLabel);
-            this.panel1.Location = new System.Drawing.Point(12, 82);
+            this.panel1.Location = new System.Drawing.Point(3, 82);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(569, 319);
+            this.panel1.Size = new System.Drawing.Size(395, 458);
             this.panel1.TabIndex = 32;
             // 
             // densityLabel
             // 
             this.densityLabel.AutoSize = true;
             this.densityLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.densityLabel.Location = new System.Drawing.Point(3, 215);
+            this.densityLabel.Location = new System.Drawing.Point(5, 325);
             this.densityLabel.Name = "densityLabel";
-            this.densityLabel.Size = new System.Drawing.Size(112, 23);
+            this.densityLabel.Size = new System.Drawing.Size(180, 23);
             this.densityLabel.TabIndex = 30;
-            this.densityLabel.Text = "Плотность:";
+            this.densityLabel.Text = "Плотность (кг/м3):";
             // 
             // densityUpDown
             // 
@@ -90,19 +90,19 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.densityUpDown.Location = new System.Drawing.Point(305, 215);
+            this.densityUpDown.Location = new System.Drawing.Point(9, 351);
             this.densityUpDown.Maximum = new decimal(new int[] {
             100000,
             0,
             0,
             0});
             this.densityUpDown.Name = "densityUpDown";
-            this.densityUpDown.Size = new System.Drawing.Size(254, 27);
+            this.densityUpDown.Size = new System.Drawing.Size(375, 27);
             this.densityUpDown.TabIndex = 31;
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(346, 270);
+            this.button1.Location = new System.Drawing.Point(171, 419);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(93, 34);
             this.button1.TabIndex = 12;
@@ -112,7 +112,7 @@ namespace CompositeGUI
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(445, 270);
+            this.button2.Location = new System.Drawing.Point(270, 419);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(114, 34);
             this.button2.TabIndex = 13;
@@ -128,21 +128,31 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.magUpDown.Location = new System.Drawing.Point(304, 164);
+            this.magUpDown.Location = new System.Drawing.Point(9, 196);
             this.magUpDown.Name = "magUpDown";
-            this.magUpDown.Size = new System.Drawing.Size(254, 27);
+            this.magUpDown.Size = new System.Drawing.Size(375, 27);
             this.magUpDown.TabIndex = 29;
             // 
             // elecLabel
             // 
             this.elecLabel.AutoSize = true;
             this.elecLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.elecLabel.Location = new System.Drawing.Point(3, 74);
+            this.elecLabel.Location = new System.Drawing.Point(9, 95);
             this.elecLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.elecLabel.Name = "elecLabel";
-            this.elecLabel.Size = new System.Drawing.Size(219, 23);
+            this.elecLabel.Size = new System.Drawing.Size(337, 23);
             this.elecLabel.TabIndex = 21;
-            this.elecLabel.Text = "Электропроводность:";
+            this.elecLabel.Text = "Диэлектрическая проницаемость:";
+            // 
+            // magLabel
+            // 
+            this.magLabel.AutoSize = true;
+            this.magLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.magLabel.Location = new System.Drawing.Point(5, 170);
+            this.magLabel.Name = "magLabel";
+            this.magLabel.Size = new System.Drawing.Size(271, 23);
+            this.magLabel.TabIndex = 23;
+            this.magLabel.Text = "Магнитная проницаемость:";
             // 
             // thermalUpDown
             // 
@@ -152,26 +162,26 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.thermalUpDown.Location = new System.Drawing.Point(304, 120);
+            this.thermalUpDown.Location = new System.Drawing.Point(9, 275);
             this.thermalUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.thermalUpDown.Name = "thermalUpDown";
-            this.thermalUpDown.Size = new System.Drawing.Size(254, 27);
+            this.thermalUpDown.Size = new System.Drawing.Size(375, 27);
             this.thermalUpDown.TabIndex = 28;
             // 
             // thermalLabel
             // 
             this.thermalLabel.AutoSize = true;
             this.thermalLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.thermalLabel.Location = new System.Drawing.Point(3, 120);
+            this.thermalLabel.Location = new System.Drawing.Point(5, 249);
             this.thermalLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.thermalLabel.Name = "thermalLabel";
-            this.thermalLabel.Size = new System.Drawing.Size(192, 23);
+            this.thermalLabel.Size = new System.Drawing.Size(272, 23);
             this.thermalLabel.TabIndex = 22;
-            this.thermalLabel.Text = "Теплопроводность:";
+            this.thermalLabel.Text = "Теплопроводность (Вт/м*К):";
             // 
             // elecUpDown
             // 
@@ -181,38 +191,28 @@ namespace CompositeGUI
             0,
             0,
             65536});
-            this.elecUpDown.Location = new System.Drawing.Point(304, 74);
+            this.elecUpDown.Location = new System.Drawing.Point(9, 121);
             this.elecUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
             0,
             0});
             this.elecUpDown.Name = "elecUpDown";
-            this.elecUpDown.Size = new System.Drawing.Size(254, 27);
+            this.elecUpDown.Size = new System.Drawing.Size(375, 27);
             this.elecUpDown.TabIndex = 27;
-            // 
-            // magLabel
-            // 
-            this.magLabel.AutoSize = true;
-            this.magLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.magLabel.Location = new System.Drawing.Point(2, 164);
-            this.magLabel.Name = "magLabel";
-            this.magLabel.Size = new System.Drawing.Size(271, 23);
-            this.magLabel.TabIndex = 23;
-            this.magLabel.Text = "Магнитная проницаемость:";
             // 
             // nameTextBox
             // 
-            this.nameTextBox.Location = new System.Drawing.Point(304, 26);
+            this.nameTextBox.Location = new System.Drawing.Point(10, 34);
             this.nameTextBox.Name = "nameTextBox";
-            this.nameTextBox.Size = new System.Drawing.Size(253, 27);
+            this.nameTextBox.Size = new System.Drawing.Size(375, 27);
             this.nameTextBox.TabIndex = 26;
             // 
             // nameLabel
             // 
             this.nameLabel.AutoSize = true;
             this.nameLabel.Font = new System.Drawing.Font("Gilroy-Regular", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nameLabel.Location = new System.Drawing.Point(3, 27);
+            this.nameLabel.Location = new System.Drawing.Point(6, 8);
             this.nameLabel.Name = "nameLabel";
             this.nameLabel.Size = new System.Drawing.Size(108, 23);
             this.nameLabel.TabIndex = 25;
@@ -237,13 +237,13 @@ namespace CompositeGUI
             "Эпоксидная смола"});
             this.comboBox1.Location = new System.Drawing.Point(12, 48);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(520, 28);
+            this.comboBox1.Size = new System.Drawing.Size(345, 28);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // deleteButton
             // 
-            this.deleteButton.Location = new System.Drawing.Point(538, 47);
+            this.deleteButton.Location = new System.Drawing.Point(363, 47);
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(31, 29);
             this.deleteButton.TabIndex = 48;
@@ -255,7 +255,7 @@ namespace CompositeGUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 405);
+            this.ClientSize = new System.Drawing.Size(406, 547);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label1);

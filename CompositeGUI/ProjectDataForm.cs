@@ -34,6 +34,12 @@ namespace CompositeGUI
             numericUpDown1.Value = Convert.ToDecimal(Main.CurrentProject.MinFrequency);
             numericUpDown2.Value = Convert.ToDecimal(Main.CurrentProject.MaxFrequency);
 
+            gridWidthUpDown.Value = Convert.ToDecimal(Main.CurrentProject.GridWidth);
+            gridSpaceUpDown.Value = Convert.ToDecimal(Main.CurrentProject.GridSpaceBetween);
+
+            gridWidthUpDown.Enabled = metalGridComboBox.SelectedIndex == 0;
+            gridSpaceUpDown.Enabled = metalGridComboBox.SelectedIndex == 0;
+
             saveButton.Enabled = !Main.InProcess();
         }
 
@@ -69,6 +75,8 @@ namespace CompositeGUI
             Project projectEdit = Main.CurrentProject;
             projectEdit.Name = nameTextBox.Text;
             projectEdit.HasMetalGrid = metalGridComboBox.SelectedIndex == 0;
+            projectEdit.GridWidth = Convert.ToDouble(gridWidthUpDown.Value);
+            projectEdit.GridSpaceBetween = Convert.ToDouble(gridSpaceUpDown.Value);
 
             if (fiberComboBox.SelectedIndex == 0) projectEdit.FiberMaterialId = null;
             else projectEdit.FiberMaterialId = materials[fiberComboBox.SelectedIndex - 1].MaterialId;
@@ -119,6 +127,12 @@ namespace CompositeGUI
         {
             if (fiberComboBox.SelectedIndex != 0)
                 selectedFiberMaterialId = materials[fiberComboBox.SelectedIndex-1].MaterialId;
+        }
+
+        private void metalGridComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridWidthUpDown.Enabled = metalGridComboBox.SelectedIndex == 0;
+            gridSpaceUpDown.Enabled = metalGridComboBox.SelectedIndex == 0;
         }
     }
 }

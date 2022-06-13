@@ -24,6 +24,8 @@ namespace CompositeGUI
         Material matrixMaterial;
         Material fiberMaterial;
         bool with_grid;
+        double grid_width;
+        double space_between_grid;
         (double, double) frequency;
 
         private DialogResult CSTConnectionError()
@@ -219,17 +221,16 @@ namespace CompositeGUI
 
         public List<CstResult> GetResults(
             Composite c,
-            Material matrixMaterial,
-            Material fiberMaterial,
-            bool with_grid,
-            (double, double) frequency
+            Project p
         )
         {
             this.c = c;
-            this.matrixMaterial = matrixMaterial;
-            this.fiberMaterial = fiberMaterial;
-            this.with_grid = with_grid;
-            this.frequency = frequency;
+            matrixMaterial = p.MatrixMaterial;
+            fiberMaterial = p.FiberMaterial;
+            with_grid = p.HasMetalGrid;
+            grid_width = p.GridWidth > 0 ? p.GridWidth : 1;
+            space_between_grid = p.GridSpaceBetween > 0 ? p.GridSpaceBetween : 1;
+            frequency = (p.MinFrequency, p.MaxFrequency);
 
             try
             {
@@ -262,8 +263,8 @@ namespace CompositeGUI
             {
                 int fiber_count = 15;
                 double  fiber_to_grid_space = 0.3, // Rasstoyanie mezhdu voloknom i setkoi
-                        grid_thickness = 1,
-                        grid_width = 1,
+                        grid_thickness = grid_width,
+                        //grid_width = 1,
                         space_between_grid = 1,
                         top_compound_thickness = 0.1; // tolshina sloya matricy sverhu
 

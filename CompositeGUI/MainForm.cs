@@ -47,6 +47,7 @@ namespace CompositeGUI
         private void MainForm_Load(object sender, EventArgs e)
         {
             topComboBox.SelectedIndex = 1;
+            tableLayoutPanel1.SetRowSpan(chart1, 2);
             UpdateMenuState();
             ShowSelectProjectForm();
             Main.ProjectList = DB.GetProjects();
